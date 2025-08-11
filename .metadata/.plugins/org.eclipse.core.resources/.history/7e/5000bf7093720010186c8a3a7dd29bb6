@@ -1,0 +1,14 @@
+package com.mcnc.bizmob.web;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class HiplusAdminApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(BizmobWebApplication.class, args);
+		
+	}
+
+}

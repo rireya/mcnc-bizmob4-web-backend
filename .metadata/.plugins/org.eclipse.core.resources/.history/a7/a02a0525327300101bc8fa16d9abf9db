@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mcnc.bizmob.web.domain.banner.mapper.BannerMapper">
+    
+      <!-- 시퀀스 값을 가져오는 쿼리 -->
+	<select id="selectNextBannerDocId" resultType="String">
+	    SELECT 
+	        CASE 
+	            WHEN #{tableType} = 'homeroll' THEN 'HRB' || LPAD(HP_BANNER_HOME_ROLL_SEQ.NEXTVAL, 8, '0')
+	            WHEN #{tableType} = 'homefixed' THEN 'HFB' || LPAD(HP_BANNER_HOME_FIXED_SEQ.NEXTVAL, 8, '0')
+	            WHEN #{tableType} = 'homepopup' THEN 'HPB' || LPAD(HP_BANNER_HOME_POPUP_SEQ.NEXTVAL, 8, '0')
+	            WHEN #{tableType} = 'benefit' THEN 'BB' || LPAD(HP_BANNER_BENEFIT_SEQ.NEXTVAL, 8, '0')
+	            ELSE 'UNKNOWN' 
+	        END
+	    FROM DUAL
+	</select>
+    
+	<insert id="insertBannerDoc">
+	    INSERT INTO ${tableName} (
+	          DOC_ID,
+	          ROLLING_SORT_ORDER,
+	          DISPLAY_FLAG,
+	          ATTACH_FLAG,
+	          PUB_START_DATE,
+	          PUB_END_DATE,
+	          PUB_ALWAYS_FLAG,
+	          LANDING_TYPE,
+	          LANDING_SPOT,
+	          CREATE_BY,
+	          CREATE_DATE
+	    )
+	    VALUES (
+	          #{bannerDoc.docId},
+	          #{bannerDoc.rollingSortOrder},
+	          #{bannerDoc.displayFlag},
+	          #{bannerDoc.attachFlag},
+	          #{bannerDoc.pubStartDate},
+			  #{bannerDoc.pubEndDate, jdbcType=VARCHAR},
+	          #{bannerDoc.pubAlwaysFlag},
+	          #{bannerDoc.landingType},
+	          <if test="bannerDoc.landingSpot != null">
+	          #{bannerDoc.landingSpot},
+	          </if>
+	          #{bannerDoc.createBy},
+	          SYSDATE
+	    )
+	</insert>
+    
+    <select id="selectBannerDocDetail" resultType="BannerDto" parameterType="String">
+		SELECT  DOC_ID as docId
+		       ,ROLLING_SORT_ORDER as rollingSortOrder
+		       ,DISPLAY_FLAG as displayFlag
+		       ,ATTACH_FLAG as attachFlag
+		       ,PUB_START_DATE as pubStartDate
+		       ,PUB_END_DATE as pubEndDate
+		       ,PUB_ALWAYS_FLAG as pubAlwaysFlag
+		       ,LANDING_TYPE as landingType
+		       ,LANDING_SPOT as landingSpot
+		       ,CREATE_BY as createBy
+		       ,CREATE_DATE as createDate
+		       ,UPDATE_BY as updateBy
+		       ,UPDATE_DATE as updateDate
+		FROM   ${tableName}
+		WHERE 			
+			DELETE_FLAG = 'N'
+			AND DOC_ID = #{bannerDocId}
+			AND ROWNUM = 1
+    </select>
+    
+    
+     <select id="selectBannerDocCount" parameterType="GetBannerDocListRequest" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM  
+			${tableName}
+		WHERE 
+			DELETE_FLAG = 'N'
+		 	<if test="request.displayFlag != null and request.displayFlag != ''">
+	       	 	AND DISPLAY_FLAG = #{request.displayFlag}
+	    	</if>
+    	 	<if test="request.requestSource == 'APP'">
+		 		AND (
+		        	SYSDATE BETWEEN PUB_START_DATE AND PUB_END_DATE
+		        	OR PUB_ALWAYS_FLAG = 'Y'
+		        )
+		    </if>
+		ORDER BY
+			DOC_ID DESC
+    </select>
+    
+		<select id="selectBannerDocList" parameterType="GetBannerDocListRequest" resultType="BannerDto">
+		    SELECT  
+		           DOC_ID as docId,
+		           ROLLING_SORT_ORDER as rollingSortOrder,
+		           DISPLAY_FLAG as displayFlag,
+		           ATTACH_FLAG as attachFlag,
+		           PUB_START_DATE as pubStartDate,
+		           PUB_END_DATE as pubEndDate,
+		           PUB_ALWAYS_FLAG as pubAlwaysFlag,
+		           LANDING_TYPE as landingType,
+		           LANDING_SPOT as landingSpot,
+		           CREATE_BY as createBy,
+		           CREATE_DATE as createDate,
+		           UPDATE_BY as updateBy,
+		           UPDATE_DATE as updateDate
+		    FROM   ${tableName}
+		    WHERE 
+		        DELETE_FLAG = 'N'
+		        <if test="request.displayFlag != null and request.displayFlag != ''">
+		            AND DISPLAY_FLAG = #{request.displayFlag}
+		        </if>
+		        <if test="request.requestSource == 'APP'">
+			 		AND (
+			        	SYSDATE BETWEEN PUB_START_DATE AND PUB_END_DATE
+			        	OR PUB_ALWAYS_FLAG = 'Y'
+			        )
+			    </if>
+		</select>
+
+    
+    <update id="updateBannerDoc">
+	    UPDATE ${tableName}
+	    SET 
+	        DISPLAY_FLAG = #{bannerDoc.displayFlag},
+	        PUB_START_DATE = #{bannerDoc.pubStartDate},
+	       	PUB_END_DATE = #{bannerDoc.pubEndDate, jdbcType=VARCHAR},
+	        PUB_ALWAYS_FLAG = #{bannerDoc.pubAlwaysFlag},
+	        LANDING_TYPE = #{bannerDoc.landingType},
+	       <if test="bannerDoc.landingSpot != null"> 
+	        LANDING_SPOT = #{bannerDoc.landingSpot},
+	        </if>
+	        ROLLING_SORT_ORDER = #{bannerDoc.rollingSortOrder}, 
+	        UPDATE_BY = #{bannerDoc.updateBy}, 
+	        UPDATE_DATE = SYSDATE             
+	    WHERE DOC_ID = #{bannerDoc.docId}
+	</update>
+    
+    
+     <update id="deleteBannerDoc" parameterType="String">
+    	UPDATE 
+  			 ${tableName}
+  		SET
+  			DELETE_FLAG = 'Y'
+  			, UPDATE_BY = 'admin'
+    		, UPDATE_DATE = SYSDATE
+    		, ROLLING_SORT_ORDER = NULL		
+    	WHERE
+    		DOC_ID = #{docId}
+    </update>
+    
+    <update id="updateBannerDocDisplayFlag" parameterType="DisplayFlagBannerDocInfo">
+    	UPDATE
+    		 ${tableName}
+  		SET
+  			DISPLAY_FLAG = #{bannerDoc.displayFlag}	
+  			, UPDATE_BY = 'admin'
+    		, UPDATE_DATE = SYSDATE
+    	WHERE
+    		DOC_ID = #{bannerDoc.docId}
+    </update>
+    
+	<update id="updateBannerSortOrder" parameterType="UpdateBannerSortOrderRequest">
+	    UPDATE ${tableName}
+	    SET 
+	        ROLLING_SORT_ORDER = #{banner.rollingSortOrder}, 
+	        UPDATE_DATE = SYSDATE
+	    WHERE DOC_ID = #{banner.docId}
+	</update>
+
+    <select id="countBannersDisplayFlagY" parameterType="string" resultType="int">
+	    SELECT 
+	    	COUNT(*)
+	    FROM 
+	    	${tableName} 
+	    WHERE 
+	    	DISPLAY_FLAG = 'Y'
+	    	AND DELETE_FLAG= 'N'
+	    	AND (
+            (TRUNC(SYSDATE) BETWEEN TRUNC(PUB_START_DATE) AND TRUNC(PUB_END_DATE))
+            OR PUB_ALWAYS_FLAG = 'Y'
+        )
+	</select>
+    
+	<select id="existsByRollingSortOrder" resultType="boolean">
+	    SELECT 
+	    	CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+	    FROM 
+	        ${tableName}
+	    WHERE 
+	        ROLLING_SORT_ORDER = #{rollingSortOrder}
+	        AND DOC_ID != #{docId}
+	        AND DISPLAY_FLAG = 'Y'
+	        AND DELETE_FLAG = 'N'
+	        AND (
+            (TRUNC(SYSDATE) BETWEEN TRUNC(PUB_START_DATE) AND TRUNC(PUB_END_DATE))
+            OR PUB_ALWAYS_FLAG = 'Y'
+        )
+	</select>
+    
+	<select id="getDisplayFlagByDocId" parameterType="map" resultType="string">
+	    SELECT 
+	    	DISPLAY_FLAG
+	    FROM 
+	    	${tableName}
+	    WHERE 
+	    	doc_id = #{docId}
+	      AND delete_flag = 'N'
+	</select>
+
+    
+
+    
+</mapper>

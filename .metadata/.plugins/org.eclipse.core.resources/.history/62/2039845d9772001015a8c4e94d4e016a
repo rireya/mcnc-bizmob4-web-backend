@@ -1,0 +1,232 @@
+{
+    "header": {
+        "emergency_flag": false,
+        "content_major_version": 0,
+        "content_minor_version": 0,
+        "app_key": null,
+        "display_type": null,
+        "error_code": "",
+        "error_text": "",
+        "info_text": "",
+        "login_session_id": "",
+        "message_version": "",
+        "result": true,
+        "trcode": "MVP0102",
+        "deploy_type": null,
+        "content_update_flag": false
+    },
+    "body": {
+        "menuList": [
+            {
+                "menuUri": "/dashboard",
+                "leftMenuYn": "Y",
+                "menuId": "dashboard",
+                "menuSeq": "1",
+                "menuLvl": "1",
+                "adminMenuYn": "Y",
+                "upperMenuId": null,
+                "menuName": "대시보드"
+            },
+            {
+                "menuUri": null,
+                "leftMenuYn": "N",
+                "menuId": "membership",
+                "menuSeq": "2",
+                "menuLvl": "1",
+                "adminMenuYn": "Y",
+                "upperMenuId": null,
+                "menuName": "회원 관리"
+            },
+            {
+                "menuUri": "/member",
+                "leftMenuYn": "Y",
+                "menuId": "members_list",
+                "menuSeq": "2",
+                "menuLvl": "2",
+                "adminMenuYn": "N",
+                "upperMenuId": "membership",
+                "menuName": "회원정보 조회"
+            },
+            {
+                "menuUri": null,
+                "leftMenuYn": "Y",
+                "menuId": "board",
+                "menuSeq": "3",
+                "menuLvl": "1",
+                "adminMenuYn": "N",
+                "upperMenuId": null,
+                "menuName": "게시판 관리"
+            },
+            {
+                "menuUri": "/notices",
+                "leftMenuYn": "Y",
+                "menuId": "notice",
+                "menuSeq": "1",
+                "menuLvl": "2",
+                "adminMenuYn": "N",
+                "upperMenuId": "board",
+                "menuName": "공지사항"
+            },
+            {
+                "menuUri": "/events",
+                "leftMenuYn": "Y",
+                "menuId": "event",
+                "menuSeq": "2",
+                "menuLvl": "2",
+                "adminMenuYn": "N",
+                "upperMenuId": "board",
+                "menuName": "이벤트"
+            },
+            {
+                "menuUri": "/contents",
+                "leftMenuYn": "Y",
+                "menuId": "content",
+                "menuSeq": "3",
+                "menuLvl": "2",
+                "adminMenuYn": "N",
+                "upperMenuId": "board",
+                "menuName": "하이패스 인포"
+            },
+            {
+                "menuUri": "/faqs",
+                "leftMenuYn": "Y",
+                "menuId": "faq",
+                "menuSeq": "4",
+                "menuLvl": "2",
+                "adminMenuYn": "N",
+                "upperMenuId": "board",
+                "menuName": "FAQ"
+            },
+            {
+                "menuUri": null,
+                "leftMenuYn": "Y",
+                "menuId": "banner",
+                "menuSeq": "4",
+                "menuLvl": "1",
+                "adminMenuYn": "N",
+                "upperMenuId": null,
+                "menuName": "배너 관리"
+            },
+            {
+                "menuUri": "/rolling-banners",
+                "leftMenuYn": "Y",
+                "menuId": "rolling-banner",
+                "menuSeq": "1",
+                "menuLvl": "2",
+                "adminMenuYn": "N",
+                "upperMenuId": "banner",
+                "menuName": "홈 롤링배너 관리"
+            },
+            {
+                "menuUri": "/fixed-banners",
+                "leftMenuYn": "Y",
+                "menuId": "fixed-banner",
+                "menuSeq": "2",
+                "menuLvl": "2",
+                "adminMenuYn": "N",
+                "upperMenuId": "banner",
+                "menuName": "홈 고정배너 관리"
+            },
+            {
+                "menuUri": "/benefits-banners",
+                "leftMenuYn": "Y",
+                "menuId": "benefits-banner",
+                "menuSeq": "3",
+                "menuLvl": "2",
+                "adminMenuYn": "N",
+                "upperMenuId": "banner",
+                "menuName": "혜택 배너 관리"
+            },
+            {
+                "menuUri": "/popup-banners",
+                "leftMenuYn": "Y",
+                "menuId": "popup-banner",
+                "menuSeq": "4",
+                "menuLvl": "2",
+                "adminMenuYn": "N",
+                "upperMenuId": "banner",
+                "menuName": "홈 팝업 배너 관리"
+            },
+            {
+                "menuUri": "/card_issuance",
+                "leftMenuYn": "N",
+                "menuId": "card",
+                "menuSeq": "5",
+                "menuLvl": "1",
+                "adminMenuYn": "N",
+                "upperMenuId": null,
+                "menuName": "카드 발급현황"
+            },
+            {
+                "menuUri": "/attendance",
+                "leftMenuYn": "N",
+                "menuId": "attendance",
+                "menuSeq": "6",
+                "menuLvl": "1",
+                "adminMenuYn": "N",
+                "upperMenuId": null,
+                "menuName": "출석체크 리워드 현황"
+            },
+            {
+                "menuUri": null,
+                "leftMenuYn": "Y",
+                "menuId": "administrator",
+                "menuSeq": "6",
+                "menuLvl": "1",
+                "adminMenuYn": "N",
+                "upperMenuId": null,
+                "menuName": "관리자 기능"
+            },
+            {
+                "menuUri": "/menu",
+                "leftMenuYn": "Y",
+                "menuId": "admin_menu",
+                "menuSeq": "1",
+                "menuLvl": "2",
+                "adminMenuYn": "N",
+                "upperMenuId": "administrator",
+                "menuName": "메뉴 관리"
+            },
+            {
+                "menuUri": "/permission",
+                "leftMenuYn": "Y",
+                "menuId": "admin_permissions",
+                "menuSeq": "2",
+                "menuLvl": "2",
+                "adminMenuYn": "N",
+                "upperMenuId": "administrator",
+                "menuName": "권한 관리"
+            },
+            {
+                "menuUri": "/common-code",
+                "leftMenuYn": "Y",
+                "menuId": "common_code",
+                "menuSeq": "7",
+                "menuLvl": "1",
+                "adminMenuYn": "N",
+                "upperMenuId": null,
+                "menuName": "공통 코드 관리"
+            },
+            {
+                "menuUri": "/home",
+                "leftMenuYn": "N",
+                "menuId": "home",
+                "menuSeq": "1",
+                "menuLvl": "1",
+                "adminMenuYn": "N",
+                "upperMenuId": null,
+                "menuName": "HOME"
+            },
+            {
+                "menuUri": "/login",
+                "leftMenuYn": "N",
+                "menuId": "login",
+                "menuSeq": "1",
+                "menuLvl": "1",
+                "adminMenuYn": "N",
+                "upperMenuId": null,
+                "menuName": "로그인 화면"
+            }
+        ]
+    }
+}

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper>
+<mapper namespace="com.mcnc.bizmob.web.domain.attachFile.mapper.AttachFileMapper">
+    
+     <!-- 시퀀스 값을 가져오는 쿼리 -->
+    <select id="selectNextAttachFileId" resultType="String">
+        SELECT 'FILE_' || LPAD(HP_ATTACH_FILE_SEQ.NEXTVAL, 8, '0') 
+        FROM DUAL
+    </select>
+    
+    <select id="selectAttachFileByDocId" resultType="AttachFileDto" parameterType="String">
+    	SELECT 
+			FILE_NAME AS fileName
+			, FILE_PATH AS filePath
+			, FILE_SIZE AS fileSize
+			, ATTACH_ID AS attachId
+			, DOC_ID AS docId
+			, ORDER_NO AS orderNo
+		FROM 
+			HP_ATTACH_FILE
+		WHERE 
+  			DELETE_FLAG = 'N'
+			AND DOC_ID = #{docId}
+		ORDER BY
+			ORDER_NO ASC
+    </select>
+        
+    <select id="selectAttachFileById" resultType="AttachFileDto">
+    	SELECT 
+			FILE_NAME AS fileName
+			, FILE_PATH AS filePath
+			, FILE_SIZE AS fileSize
+			, ATTACH_ID AS attachId
+		FROM 
+			HP_ATTACH_FILE
+		WHERE 
+  			DELETE_FLAG = 'N'
+			AND ATTACH_ID IN 
+			<foreach item="attachId" collection="fileIds" open="(" separator="," close=")">
+				#{attachId}
+	        </foreach>
+    </select>
+    
+    <insert id="insertAttachFile" parameterType="AttachFileDto">
+    	INSERT INTO HP_ATTACH_FILE (
+    		ATTACH_ID
+    		, DOC_ID
+    		, ORDER_NO
+    		, FILE_NAME
+    		, FILE_PATH
+    		, FILE_SIZE
+    		, FILE_TYPE
+    		, DELETE_FLAG
+    		, CREATE_BY
+    		, CREATE_DATE
+    	) VALUES (
+    		#{attachId}
+    		, #{docId}
+    		, #{orderNo}
+    		, #{fileName}
+    		, #{filePath}
+    		, #{fileSize}
+    		, #{fileType}
+    		, 'N'
+    		, #{createBy}
+    		, SYSDATE
+    	)
+    </insert>
+    
+    <update id="deleteAttachFile" parameterType="String">
+    	UPDATE 
+  			HP_ATTACH_FILE
+  		SET
+  			DELETE_FLAG = 'Y'
+    		, UPDATE_DATE = SYSDATE
+    	WHERE
+    		ATTACH_ID = #{attachId}
+    </update>
+    
+    <update id="deleteAttachFileByDocId" parameterType="String">
+    	UPDATE 
+  			HP_ATTACH_FILE
+  		SET
+  			DELETE_FLAG = 'Y'
+    		, UPDATE_DATE = SYSDATE
+    	WHERE
+   			DELETE_FLAG = 'N'
+    		AND DOC_ID = #{docId}
+    </update>
+    
+        <select id="selectSingleAttachFileByDocId" resultType="AttachFileDto" parameterType="String">
+    	SELECT 
+			FILE_NAME AS fileName
+			, FILE_PATH AS filePath
+			, FILE_SIZE AS fileSize			
+			, ATTACH_ID AS attachId
+			, DOC_ID AS docId
+			, ORDER_NO AS orderNo
+		FROM 
+			HP_ATTACH_FILE
+		WHERE 
+  			DELETE_FLAG = 'N'
+			AND DOC_ID = #{docId}
+			AND ROWNUM = 1
+		ORDER BY
+			ORDER_NO ASC
+    </select>
+        
+	<select id="selectSingleAttachFileById" resultType="AttachFileDto">
+	    SELECT 
+	        FILE_NAME AS fileName
+	        , FILE_PATH AS filePath
+			, FILE_SIZE AS fileSize
+	        , ATTACH_ID AS attachId
+	    FROM 
+	        HP_ATTACH_FILE
+	    WHERE 
+	        DELETE_FLAG = 'N'
+	        AND ATTACH_ID = #{fileId}
+	        AND ROWNUM = 1
+	</select>
+    
+    <select id="selectBannerAttachFilesByDocIds" resultType="AttachFileDto">
+	    SELECT 
+	    	  FILE_NAME AS fileName
+			, FILE_PATH AS filePath
+		    , FILE_SIZE AS fileSize
+			, ATTACH_ID AS attachId
+			, DOC_ID AS docId
+			, ORDER_NO AS orderNo
+		 	, CREATE_DATE as createDate
+	    FROM 
+	    	HP_ATTACH_FILE
+	    WHERE 
+	    	DELETE_FLAG = 'N'    
+	   <if test="docIds != null and docIds.size() > 0">
+        AND DOC_ID IN 
+        <foreach item="docId" index="index" collection="docIds" open="(" separator="," close=")">
+            #{docId}
+        </foreach>
+    </if>
+	</select>
+	
+		
+	<select id="selectBodyAttachFileByMetaDocId" resultType="AttachFileDto" parameterType="String">
+        SELECT
+			f.FILE_NAME AS fileName
+			, f.FILE_PATH AS filePath
+			, f.FILE_SIZE AS fileSize
+			, f.ATTACH_ID AS attachId
+			, f.DOC_ID AS docId
+			, f.ORDER_NO AS orderNo
+        FROM
+            HP_ATTACH_FILE f
+        JOIN
+            HP_HIPASS_BODY b
+        ON
+            f.DOC_ID = b.BODY_DOC_ID
+        WHERE
+        	f.DELETE_FLAG = 'N' AND
+            b.META_DOC_ID = #{metaDocId}
+	</select>
+	
+	<select id="selectBodyAttachFileByHeadDocId" resultType="AttachFileDto" parameterType="String">
+        SELECT
+			f.FILE_NAME AS fileName
+			, f.FILE_PATH AS filePath
+			, f.FILE_SIZE AS fileSize
+			, f.ATTACH_ID AS attachId
+			, f.DOC_ID AS docId
+			, f.ORDER_NO AS orderNo
+        FROM
+            HP_ATTACH_FILE f
+        JOIN
+            HP_EVENT_BOARD_BODY b
+        ON
+            f.DOC_ID = b.EVBD_DOC_ID
+        WHERE
+            f.DELETE_FLAG = 'N' AND
+            b.EVHD_DOC_ID = #{headDocId}
+	</select>
+    
+</mapper>

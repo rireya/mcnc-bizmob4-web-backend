@@ -1,0 +1,104 @@
+package com.mcnc.bizmob.web.domain.group.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.mcnc.bizmob.web.domain.board.notice.dto.PageRequest;
+import com.mcnc.bizmob.web.domain.group.dto.GroupDto;
+import com.mcnc.bizmob.web.domain.group.dto.GroupInfo;
+import com.mcnc.bizmob.web.domain.group.dto.MenuGroupDto;
+import com.mcnc.bizmob.web.domain.group.dto.request.GetMappedGroupMenuRequest;
+import com.mcnc.bizmob.web.domain.group.dto.request.GetUserGroupRequest;
+import com.mcnc.bizmob.web.domain.group.dto.request.RegisterMappedGroupMenuRequest;
+import com.mcnc.bizmob.web.domain.group.dto.response.GetGroupListResponse;
+import com.mcnc.bizmob.web.domain.group.dto.response.GetMappedGroupMenuResponse;
+import com.mcnc.bizmob.web.domain.group.dto.response.GetUserGroupResponse;
+import com.mcnc.bizmob.web.domain.group.dto.response.RegisterMappedGroupMenuResponse;
+import com.mcnc.bizmob.web.domain.group.mapper.GroupMapper;
+import com.mcnc.sm.hiplus.global.dto.SearchDto;
+import com.mcnc.sm.hiplus.global.exception.ErrorCode;
+import com.mcnc.sm.hiplus.global.exception.InternalServerException;
+import com.mcnc.sm.hiplus.global.util.PageUtils;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+@Transactional
+public class GroupServiceImpl implements GroupService {
+	
+	@Autowired
+	private GroupMapper groupMapper;
+	
+
+	@Override
+	public GetUserGroupResponse getGroupByUser(GetUserGroupRequest request) {
+		GroupDto group = groupMapper.selectUserGroup(request.getUserId());
+		if(group == null) {
+			throw new InternalServerException(ErrorCode.GROUP_NOT_FOUND);
+		}
+		return group.toResponse();
+	}
+	
+
+	@Override
+	public GetGroupListResponse getGroupList(PageRequest request) {
+		int[] rows = PageUtils.calculateRowBounds(request.getPageNo(), request.getPageSize());
+		SearchDto searchDto = new SearchDto(rows[0], rows[1]);
+		
+		List<GroupDto> groupList = groupMapper.selectGroupList(searchDto);
+		int totalCnt = groupMapper.selectGroupCount();
+		
+		List<GroupInfo> list = groupList.stream()
+				.map(GroupDto::of)
+				.collect(Collectors.toList());
+		
+		return GetGroupListResponse.builder()
+				.totalCount(totalCnt)
+				.groupList(list)
+				.build();
+	}
+
+
+	@Override
+	public GetMappedGroupMenuResponse getMappedGroupByMenu(GetMappedGroupMenuRequest request) {
+		String groupId = request.getGroupId();
+		List<String> menuIds = groupMapper.selectMappedGroupByMenu(groupId);
+		
+		return GetMappedGroupMenuResponse.builder()
+				.menuIds(menuIds)
+				.build();
+	}
+
+
+	@Override
+	public RegisterMappedGroupMenuResponse registerMappedGroupByMenu(RegisterMappedGroupMenuRequest request) {
+		Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("grpId", request.getGroupId());
+	    paramMap.put("menuIds", request.getMenuIds());
+		
+	    groupMapper.deleteMissingMenus(paramMap);
+
+	    List<String> menuIds = request.getMenuIds();
+	    MenuGroupDto dto = request.toDto();
+
+	    if (menuIds != null && !menuIds.isEmpty()) {
+	        for (String menuId : menuIds) {
+	            dto.setMenuId(menuId);
+	            groupMapper.insertMappedMenuByGroupId(dto);
+	        }
+	    }
+
+		
+		return RegisterMappedGroupMenuResponse.builder()
+				.groupId(request.getGroupId())
+				.build();
+	}
+	
+}

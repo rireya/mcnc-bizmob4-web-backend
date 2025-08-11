@@ -1,0 +1,21 @@
+package com.mcnc.sm.hiplus.domain.menu.service;
+
+import com.mcnc.bizmob.web.domain.menu.dto.request.DeleteMenuRequest;
+import com.mcnc.bizmob.web.domain.menu.dto.request.GetMenuDetailRequest;
+import com.mcnc.bizmob.web.domain.menu.dto.request.RegisterMenuRequest;
+import com.mcnc.bizmob.web.domain.menu.dto.request.UpdateMenuRequest;
+import com.mcnc.sm.hiplus.domain.menu.dto.response.DeleteMenuResponse;
+import com.mcnc.sm.hiplus.domain.menu.dto.response.GetMenuDetailResponse;
+import com.mcnc.sm.hiplus.domain.menu.dto.response.GetMenuListResponse;
+import com.mcnc.sm.hiplus.domain.menu.dto.response.RegisterMenuResponse;
+import com.mcnc.sm.hiplus.domain.menu.dto.response.UpdateMenuResponse;
+
+public interface MenuService {
+	public GetMenuListResponse getMenuList();
+	public GetMenuDetailResponse getMenuDetail(GetMenuDetailRequest request);
+	public RegisterMenuResponse registerMenu(RegisterMenuRequest request);
+	public UpdateMenuResponse updateMenu(UpdateMenuRequest request);
+	public DeleteMenuResponse deleteMenu(DeleteMenuRequest request);
+	public GetMenuListResponse getSideMenuList();
+}
+	

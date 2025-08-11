@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mcnc.bizmob.web.domain.user.mapper.UserMapper">
+
+    <select id="callAdminLogin" statementType="CALLABLE" parameterType="map">
+         CALL SP_ADMIN_LOGIN(
+        	#{P_USERID, mode=IN, jdbcType=VARCHAR},
+        	#{P_PWD, mode=IN, jdbcType=VARCHAR}, 
+        	#{R_RESULT, mode=OUT, jdbcType=VARCHAR}
+        ) 
+    </select>
+    
+</mapper>

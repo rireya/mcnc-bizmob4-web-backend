@@ -1,0 +1,21 @@
+package com.mcnc.sm.hiplus.domain.board.notice.dto.request;
+
+import com.mcnc.bizmob.web.domain.board.notice.dto.NoticeBoardDto;
+import com.mcnc.bizmob.web.domain.board.notice.enums.FlagType;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+public class DisplayFlagNoticeDocInfo {
+	private String noticeDocId;
+	private FlagType displayFlag;
+	
+	public NoticeBoardDto toDto() {
+		return NoticeBoardDto.builder()
+				.noticeDocId(noticeDocId)
+				.displayFlag(displayFlag)
+				.build();
+	}
+}

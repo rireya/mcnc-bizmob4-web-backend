@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mcnc.bizmob.web.domain.group.mapper.GroupMapper">
+        
+     <select id="selectUserGroup" parameterType="String" resultType="GroupDto">
+    	SELECT 
+    		A.USER_ID 		AS userId
+    		, A.USER_NAME	AS userName
+    		, B.GRP_ID		AS grpId
+    		, B.GRP_NAME	AS grpName
+    		, B.GRP_CODE	AS grpCode
+    	FROM 
+    		USER_M A, HP_GROUP_M B
+		WHERE 
+			A.GRP_ID = B.GRP_CODE
+			AND A.USER_ID = #{userId}
+    </select>
+    
+    <select id="selectGroupCount" resultType="Integer">    	
+    	SELECT 
+    		count(*)
+    	FROM 
+    		HP_GROUP_M	
+    </select>
+        
+    <select id="selectGroupList" parameterType="searchDto" resultType="GroupDto">    		
+    	SELECT *
+		FROM (
+			SELECT a.*, ROWNUM rnum
+			FROM (
+				SELECT 
+		    		GRP_NAME	AS grpName
+		    		, GRP_CODE	AS grpCode
+		    		, GRP_ID	AS grpId
+		    	FROM 
+		    		HP_GROUP_M
+		    ) a
+		    WHERE ROWNUM <![CDATA[<=]]> #{endRow} -- 원하는 마지막 행 번호
+		)
+		WHERE rnum <![CDATA[>]]> #{startRow} -- 원하는 시작 행 번호
+    </select>
+    
+    <select id="selectMappedGroupByMenu" parameterType="String" resultType="String">   
+    	SELECT 
+    		MENU_ID AS menuId
+    	FROM 
+    		HP_MENU_GROUP
+    	WHERE
+    		GRP_ID = #{groupId}
+    </select>
+    
+    <insert id="insertMappedMenuByGroupId"  parameterType="MenuGroupDto">
+    	MERGE INTO 
+    		HP_MENU_GROUP 
+		USING 
+			DUAL 
+		ON (MENU_ID = #{menuId} AND GRP_ID = #{grpId})
+		WHEN MATCHED THEN
+			UPDATE SET
+		 		UPDATE_DATE = SYSDATE
+		 		, UPDATE_BY = #{createBy}
+		WHEN NOT MATCHED THEN
+			INSERT (
+		    		MENU_ID
+		    		, GRP_ID
+		    		, CREATE_DATE
+		    		, CREATE_BY
+	    	) VALUES (
+	    		#{menuId}
+	    		, #{grpId}
+	    		, SYSDATE
+	    		, #{createBy}
+	    	)
+    </insert>
+    
+    
+	<delete id="deleteMissingMenus" parameterType="map">
+	    DELETE FROM 
+	    	HP_MENU_GROUP
+	    WHERE GRP_ID = #{grpId}
+	    <if test="menuIds != null and menuIds.size() > 0">
+	        AND MENU_ID NOT IN
+	        <foreach item="menuId" collection="menuIds" open="(" separator="," close=")">
+	            #{menuId}
+	        </foreach>
+	    </if>
+	</delete>
+
+	
+</mapper>

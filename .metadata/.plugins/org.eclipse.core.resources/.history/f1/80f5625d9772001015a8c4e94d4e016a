@@ -1,0 +1,40 @@
+
+# =========== 기본 설정 ===========
+server.servlet.context-path=/admin
+server.port=8281
+
+# =========== DB 설정 ===========
+
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+spring.datasource.url=ENC(kiKasF+KkSB3lltxQP44QMuPkL7M5N8nJtanH1fjTynFhG9KIvm3YOdLxwIpgU6uCPTrDTpGPvnbMabTLUrRmPAqMbI7CXAyz/JH/kGKHiY=)
+spring.datasource.username=ENC(fx690n/v4MeIw1e6ne5CmnL1qgGsq0/SXESnjjyp4vrrX0buRnHB+uD7rKQ1Vy4h)
+spring.datasource.password=ENC(fx690n/v4MeIw1e6ne5CmnL1qgGsq0/SXESnjjyp4vrrX0buRnHB+uD7rKQ1Vy4h)
+
+# =========== JPA 설정 ===========
+spring.jpa.database=oracle
+spring.jpa.database-platform=org.hibernate.dialect.Oracle10gDialect
+
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.hibernate.use-new-id-generator-mappings=true
+
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# OSIV 비활성화
+spring.jpa.open-in-view=false
+
+# =========== 개발 설정 ===========
+# 서버 재시작 없이 반영될 수 있도록 하는 설정, 개발시에는 true, 운영은 false 로 함. (페이지 로딩 속도 이슈)
+spring.devtools.livereload.enabled=true
+# Automatic Restart 사용 여부
+spring.devtools.restart.enabled=true
+
+# =========== 파일 저장 경로 설정 ===========
+image.file.download.path=/bizmob/SMART_HOME/Download
+
+logging.file.path=/bizmob/logs
+
+
+# =========== oci object storage 설정 ============
+oci.object.storage.path=https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o
+oci.object.storage.bucket-name=DEV-MOB-BK

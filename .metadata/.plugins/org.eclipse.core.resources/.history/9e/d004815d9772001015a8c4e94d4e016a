@@ -1,0 +1,25 @@
+{
+  "status": true,
+  "code": null,
+  "data": {
+    "announcementList": [
+      {
+        "announcementId": "NOT0010",
+        "announcementName": "(NOT0010)토스페이 자동충전카드 간편결..."
+      },
+      {
+        "announcementId": "NOT0011",
+        "announcementName": "(NOT0011)토스페이 자동충전카드 간편결..."
+      },
+      {
+        "announcementId": "NOT0012",
+        "announcementName": "(NOT0012)토스페이 자동충전카드 간편결..."
+      },
+      {
+        "announcementId": "NOT0013",
+        "announcementName": "(NOT0013)토스페이 자동충전카드 간편결..."
+      }
+    ] 
+  },
+  "message": ""
+}

@@ -1,0 +1,117 @@
+{
+  "header": {
+    "trcode": "ABOR2000",
+    "result": true,
+    "error_code": "",
+    "error_text": "",
+    "info_text": ""
+  },
+  "body": {
+    "page": 1,
+    "pageSize": 10,
+    "totalItems": 35,
+    "totalPages": 4,
+    "list": [
+      {
+        "no": 10,
+        "seq": 10,
+        "category": "EVENT1",
+        "title": "My Car Life - 내 차에 맞는 보험 확인하면 최대 5,000P 지급",
+        "id": "NOT0010",
+        "registerDate": "2024.09.12",
+        "exposedYn": "Y",
+        "chip": true
+      },
+      {
+        "no": 9,
+        "seq": 9,
+        "category": "EVENT2",
+        "title": "자동충전카드 X 네이버페이 결제수단 오픈기념 EVENT",
+        "id": "NOT0010",
+        "registerDate": "2024.09.12",
+        "exposedYn": "Y",
+        "chip": true
+      },
+      {
+        "no": 8,
+        "seq": 8,
+        "category": "EVENT1",
+        "title": "My Car Life - 내 차에 맞는 보험 확인하면 최대 5,000P 지급",
+        "id": "NOT0010",
+        "registerDate": "2024.09.12",
+        "exposedYn": "Y",
+        "chip": true
+      },
+      {
+        "no": 7,
+        "seq": 7,
+        "category": "EVENT1",
+        "title": "자동충전카드 X 네이버페이 결제수단 오픈기념 EVENT",
+        "id": "NOT0010",
+        "registerDate": "2024.09.12",
+        "exposedYn": "Y",
+        "chip": false
+      },
+      {
+        "no": 6,
+        "seq": 6,
+        "category": "EVENT2",
+        "title": "My Car Life - 내 차에 맞는 보험 확인하면 최대 5,000P 지급",
+        "id": "NOT0010",
+        "registerDate": "2024.09.12",
+        "exposedYn": "Y",
+        "chip": false
+      },
+      {
+        "no": 5,
+        "seq": 5,
+        "category": "EVENT2",
+        "title": "자동충전카드 X 네이버페이 결제수단 오픈기념 EVENT",
+        "id": "NOT0010",
+        "registerDate": "2024.09.12",
+        "exposedYn": "Y",
+        "chip": false
+      },
+      {
+        "no": 4,
+        "seq": 4,
+        "category": "EVENT1",
+        "title": "My Car Life - 내 차에 맞는 보험 확인하면 최대 5,000P 지급",
+        "id": "NOT0010",
+        "registerDate": "2024.09.12",
+        "exposedYn": "Y",
+        "chip": false
+      },
+      {
+        "no": 3,
+        "seq": 3,
+        "category": "EVENT1",
+        "title": "자동충전카드 X 네이버페이 결제수단 오픈기념 EVENT",
+        "id": "NOT0010",
+        "registerDate": "2024.09.12",
+        "exposedYn": "Y",
+        "chip": false
+      },
+      {
+        "no": 2,
+        "seq": 2,
+        "category": "EVENT1",
+        "title": "My Car Life - 내 차에 맞는 보험 확인하면 최대 5,000P 지급",
+        "id": "NOT0010",
+        "registerDate": "2024.09.12",
+        "exposedYn": "Y",
+        "chip": false
+      },
+      {
+        "no": 1,
+        "seq": 1,
+        "category": "EVENT2",
+        "title": "자동충전카드 X 네이버페이 결제수단 오픈기념 EVENT",
+        "id": "NOT0010",
+        "registerDate": "2024.09.12",
+        "exposedYn": "Y",
+        "chip": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "status": true,
+  "code": null,
+  "data": {
+    "bannerList": [
+      {
+        "id": "3",
+        "no": "3",
+        "image": "https://www.blueridgeheritage.com/wp-content/uploads/2018/03/200_WhitesideMtn.jpg",
+        "landing": "EVT0010",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.21"
+      },
+      {
+        "id": "2",
+        "no": "2",
+        "image": "https://static.vecteezy.com/system/resources/thumbnails/024/462/751/small/a-man-stands-in-front-of-mountain-ai-generated-free-photo.jpg",
+        "landing": "NOT0010",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "N",
+        "registerDate": "2025.05.20"
+      },
+      {
+        "id": "1",
+        "no": "1",
+        "image": "https://i0.wp.com/www.corkbackpackers.ie/wp-content/uploads/2017/04/mountain-sunrise-wallpaper-10819-hd-wallpapers-200x200.jpg?ssl=1",
+        "landing": "혜택메인",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.19"
+      }
+    ]
+  },
+  "message": ""
+}

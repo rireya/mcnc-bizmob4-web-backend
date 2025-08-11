@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mcnc.bizmob.web.domain.menu.mapper.MenuMapper">
+    
+    <!-- 시퀀스 값을 가져오는 쿼리 -->
+    <select id="selectNextCodeId" resultType="String">
+        SELECT 'MENU_' || LPAD(HP_MENU_SEQ.NEXTVAL, 8, '0') 
+        FROM DUAL
+    </select>
+
+   <select id="selectMenuList" parameterType="String" resultType="MenuDto">
+		SELECT 
+			MENU_ID 		 AS menuId
+			, PARENT_MENU_ID AS parentMenuId
+			, MENU_NAME 	 AS menuName
+			, DESCRIPTION 	 AS description
+			, MENU_URL		 AS menuUrl
+			, STATUS 		 AS status
+			, CREATE_DATE	 AS createDate
+			, UPDATE_DATE 	 AS updateDate
+		FROM 
+			HP_MENU 
+		WHERE
+			DELETE_FLAG = 'N'
+			<if test="parentMenuId == null or parentMenuId == ''">
+				AND PARENT_MENU_ID IS NULL
+			</if>
+			<if test="parentMenuId != null and parentMenuId != ''">
+				AND PARENT_MENU_ID = #{parentMenuId}
+			</if>		
+    </select>
+    
+	<select id="selectSideMenuList" parameterType="String" resultType="MenuDto">
+		SELECT 
+			MENU_ID 		 AS menuId
+			, PARENT_MENU_ID AS parentMenuId
+			, MENU_NAME 	 AS menuName
+			, DESCRIPTION 	 AS description
+			, MENU_URL		 AS menuUrl
+			, STATUS 		 AS status
+			, CREATE_DATE	 AS createDate
+			, UPDATE_DATE 	 AS updateDate
+		FROM 
+			HP_MENU 
+		WHERE
+			(DELETE_FLAG = 'N' OR MENU_URL ='HOM0010')
+		<if test="parentMenuId == null">
+			AND PARENT_MENU_ID IS NULL
+		</if>
+		<if test="parentMenuId != null">
+			AND PARENT_MENU_ID = #{parentMenuId}
+		</if>
+	</select>
+    
+    <select id="selectMenuDetail" resultType="MenuDto">
+   		SELECT 
+			MENU_ID 		AS menuId
+			, MENU_NAME 	AS menuName
+			, DESCRIPTION 	AS description
+			, MENU_URL		AS menuUrl
+			, STATUS 		AS status
+			, CREATE_DATE	AS createDate
+			, UPDATE_DATE 	AS updateDate
+		FROM 
+			HP_MENU 
+		WHERE
+			MENU_ID = #{menuId}
+			AND DELETE_FLAG = 'N'
+    </select>
+    
+    <insert id="insertMenu" parameterType="MenuDto">
+    	INSERT INTO HP_MENU (
+    		MENU_ID
+    		<if test="parentMenuId != null and parentMenuId != ''">
+	    		, PARENT_MENU_ID
+    		</if>
+    		, MENU_NAME
+    		, DESCRIPTION
+    		, MENU_URL
+    		, STATUS
+    		, DELETE_FLAG
+    		, CREATE_DATE
+    		, CREATE_BY
+    	) VALUES (
+    		#{menuId}
+    		<if test="parentMenuId != null and parentMenuId != ''">
+	    		, #{parentMenuId}
+	    	</if>
+    		, #{menuName}
+    		, #{description}
+    		, #{menuUrl}
+    		, #{status}
+    		, 'N'
+    		, SYSDATE
+    		, #{createBy}
+    	)
+    </insert>
+    
+    <update id="updateMenu" parameterType="MenuDto">
+    	UPDATE 
+    		HP_MENU
+    	SET
+    		MENU_NAME = #{menuName}
+    		, MENU_URL = #{menuUrl}
+    		, DESCRIPTION = #{description}
+    		, STATUS = #{status}
+    		, UPDATE_DATE = SYSDATE
+    		, UPDATE_BY = #{updateBy}
+    	WHERE
+    		MENU_ID = #{menuId}
+    </update>
+    
+    <delete id="deleteMenu" parameterType="String">
+    	UPDATE 
+    		HP_MENU
+    	SET
+    		DELETE_FLAG = 'Y'
+    		, UPDATE_DATE = SYSDATE
+    	WHERE
+    		MENU_ID = #{menuId}
+    		OR PARENT_MENU_ID = #{menuId}
+    </delete>
+</mapper>

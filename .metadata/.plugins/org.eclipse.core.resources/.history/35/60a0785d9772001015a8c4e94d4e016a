@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%p %d [%t] [%c] %-15.15M %m%n</pattern>
+        </encoder>
+    </appender>
+    
+       <appender name="adminFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/admin.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/admin.%d{yyyyMMdd}_%i.log.zip</fileNamePattern>
+            <maxHistory>30</maxHistory> <!-- 일자별 백업파일의 보관기간 -->
+			<maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="adminErrorFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/admin-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/admin-error.%d{yyyyMMdd}_%i.log.zip</fileNamePattern>
+            <maxHistory>30</maxHistory> <!-- 일자별 백업파일의 보관기간 -->
+			<maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        	<level>ERROR</level>
+        </filter>
+    </appender>
+    
+    <appender name="async-errorAppender" class="ch.qos.logback.classic.AsyncAppender">
+    	<appender-ref ref="adminErrorFileAppender" />
+    	<queueSize>255</queueSize>
+    	<discardingThreshold>20</discardingThreshold>
+    	<includeCallerData>false</includeCallerData>
+    	<neverBlock>true</neverBlock>
+    </appender>
+    
+    <appender name="async-infoAppender" class="ch.qos.logback.classic.AsyncAppender">
+    	<appender-ref ref="adminFileAppender" />
+    	<queueSize>2048</queueSize>
+    	<discardingThreshold>20</discardingThreshold>
+    	<includeCallerData>false</includeCallerData>
+    	<neverBlock>true</neverBlock>
+    	<maxFlushTime>60000</maxFlushTime>
+    </appender>
+    
+	<shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+      
+    
+ 	<logger name="org.springframework" level="WARN"/>
+	<logger name="_org.springframework" level="WARN"/>
+	<logger name="org.hibernate" level="INFO"/>
+	<logger name="org.infinispan" level="INFO"/>
+	<logger name="org.jgroups" level="WARN"/>
+	<logger name="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" level="DEBUG"/>
+  
+  	<logger name="org.apache.http" level="INFO"/>
+    <logger name="httpclient.wire.content" level="ERROR"/>
+    
+    <logger name="com.zaxxer.hikari.pool.PoolBase" level="ERROR"/>
+    <logger name="com.zaxxer.hikari.pool.HikariPool" level="ERROR"/>
+    <logger name="com.zaxxer.hikari.HikariDataSource" level="ERROR"/>
+
+    <logger name="org.mybatis.spring.transaction.SpringManagedTransaction" level="DEBUG"/>
+    <logger name="org.mybatis" level="DEBUG"/>
+    
+    <root level="DEBUG">	  
+	  <appender-ref ref="async-infoAppender" />
+	  <appender-ref ref="async-errorAppender" />
+	</root>
+	
+	<!-- local -->
+	<springProfile name="local">
+		<root level="debug" additivity="false">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="async-infoAppender" />
+	 		<appender-ref ref="async-errorAppender" />
+		</root>
+	</springProfile>
+	
+	
+	<!-- dev -->
+	<springProfile name="dev">
+		<root level="info" additivity="false">
+			<appender-ref ref="async-infoAppender" />
+	 		<appender-ref ref="async-errorAppender" />
+		</root>
+	</springProfile>
+    
+
+	<!-- prod -->
+	<springProfile name="prod">
+		<root level="debug" additivity="false">
+			<appender-ref ref="async-infoAppender" />
+	 		<appender-ref ref="async-errorAppender" />
+		</root>
+	</springProfile>
+    
+    
+</configuration>

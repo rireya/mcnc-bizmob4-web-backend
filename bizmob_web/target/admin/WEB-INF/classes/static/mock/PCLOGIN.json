@@ -1,0 +1,77 @@
+{
+    "header": {
+        "emergency_flag": false,
+        "content_major_version": 0,
+        "content_minor_version": 0,
+        "app_key": null,
+        "display_type": null,
+        "error_code": "",
+        "error_text": "",
+        "info_text": "",
+        "login_session_id": "",
+        "message_version": "",
+        "result": true,
+        "trcode": "PCLOGIN",
+        "deploy_type": null,
+        "content_update_flag": false
+    },
+    "body": {
+        "accessTokenExpTime": "2024-07-19 11:06:07",
+        "company_id": "",
+        "refreshTokenExpTime": "2024-07-22 06:06:07",
+        "user_type": "",
+        "remote_wipe": false,
+        "access_limit": false,
+        "app_tester": false,
+        "license_no": "",
+        "attachment_download": true,
+        "refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJob25nZ2lsZG9uZyIsInVzZXJfaWQiOiJob25nZ2lsZG9uZyIsImNvbXBhbnlfaWQiOiIiLCJvc190eXBlIjoid2ViIiwiZXhwIjoxNzIxNjI4MzY3fQ.0SMPQMj93rDILkl8ZbPrHYig4k4hx5qTelWhXlNiDrDB37ruVc6N7Up2435m2hD6nunteB6lM8sBoJTBIq0SBA",
+        "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJob25nZ2lsZG9uZyIsInVzZXJfaWQiOiJob25nZ2lsZG9uZyIsImNvbXBhbnlfaWQiOiIiLCJvc190eXBlIjoid2ViIiwiZXhwIjoxNzIxMzg3MTY3fQ.sdOanJ1K40VSs39cBMkIzkDCiGsUeNGssca3BBpaSy5J0MtrBakKlXDA2g6yrYosInnMRGT2hwocFt5vf4pxtA",
+        "legacy_message": {
+            "header": {
+                "emergency_flag": false,
+                "content_major_version": 0,
+                "content_minor_version": 0,
+                "app_key": null,
+                "display_type": null,
+                "error_code": "",
+                "error_text": "",
+                "info_text": null,
+                "login_session_id": null,
+                "message_version": null,
+                "result": true,
+                "trcode": "MVP0101",
+                "deploy_type": null,
+                "content_update_flag": false
+            },
+            "body": {
+                "userRoleList": [
+                    {
+                        "roleName": "회원1 권한",
+                        "roleId": "ROLE_MEMBER1_ID"
+                    },
+                    {
+                        "roleName": "회원2 권한",
+                        "roleId": "ROLE_MEMBER2_ID"
+                    }
+                ],
+                "userGroupList": [
+                    {
+                        "groupName": "사업1팀",
+                        "groupId": "biz1team"
+                    },
+                    {
+                        "groupName": "UX팀",
+                        "groupId": "ux_team"
+                    }
+                ],
+                "userMobile": "010-1234-5678",
+                "userNick": "길동이",
+                "userName": "홍길동",
+                "userRole": "Master",
+                "userEmail": "gildonghong@mcnc.co.kr"
+            }
+        },
+        "legacy_trcode": "MVP0101"
+    }
+}

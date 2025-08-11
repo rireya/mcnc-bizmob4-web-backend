@@ -1,0 +1,36 @@
+package com.mcnc.bizmob.web.domain.board.notice.dto;
+
+import java.util.List;
+
+import com.mcnc.bizmob.web.domain.board.notice.enums.FlagType;
+import com.mcnc.sm.hiplus.global.dto.SearchDto;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class NoticeBoardSearchDto extends SearchDto {
+	// 카테고리
+	private List<String> categoryIds;
+	
+	private PeriodSearch periodSearch;
+	private KeywordSearch keywordSearch;
+	
+	private String requestSource;
+	
+	// 노출 여부
+	private FlagType displayFlag;
+
+	@Builder
+	public NoticeBoardSearchDto(int startRow, int endRow, List<String> categoryIds, PeriodSearch periodSearch,
+			KeywordSearch keywordSearch, FlagType displayFlag , String requestSource) {
+		super(startRow, endRow);
+		this.categoryIds = categoryIds;
+		this.periodSearch = periodSearch;
+		this.keywordSearch = keywordSearch;
+		this.displayFlag = displayFlag;
+		this.requestSource = requestSource;
+	}
+}

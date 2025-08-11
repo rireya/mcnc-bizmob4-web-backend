@@ -1,0 +1,12 @@
+{
+  "status": true,
+  "code": null,
+  "data": {
+    "menuIds": [
+      "MENU_00000004",
+      "MENU_00000003",
+      "MENU_00000025"
+    ]
+  },
+  "message": ""
+}

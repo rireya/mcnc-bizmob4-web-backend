@@ -1,0 +1,46 @@
+{
+    "status": true,
+    "code": null,
+    "data": {
+      "bannerList": [
+        {
+          "id": "4",
+          "no": "4",
+          "image": "https://www.wordstream.com/wp-content/uploads/2021/07/persuasive-ads-coca-cola-1.jpg",
+          "landing": "https://www.hipluscard.co.kr/aa",
+          "postingPeriod": "2025.05.21 09:30 ~ 상시",
+          "status": "N",
+          "registerDate": "2025.05.15"
+        },
+        {
+          "id": "3",
+          "no": "3",
+          "image": "https://www.wordstream.com/wp-content/uploads/2021/07/persuasive-ads-coca-cola-1.jpg",
+          "landing": "애드팝콘오퍼월 목록",
+          "postingPeriod": "2025.05.21 09:30 ~ 상시",
+          "status": "Y",
+          "registerDate": "2025.05.15"
+        },
+        {
+          "id": "2",
+          "no": "2",
+          "image": "https://www.wordstream.com/wp-content/uploads/2021/07/persuasive-ads-coca-cola-1.jpg",
+          "landing": "혜택메인",
+          "postingPeriod": "2025.05.21 09:30 ~ 상시",
+          "status": "Y",
+          "registerDate": "2025.05.15"
+        },
+        {
+          "id": "1",
+          "no": "1",
+          "image": "https://www.wordstream.com/wp-content/uploads/2021/07/persuasive-ads-coca-cola-1.jpg",
+          "landing": "NOT0010",
+          "postingPeriod": "2025.05.21 09:30 ~ 상시",
+          "status": "Y",
+          "registerDate": "2025.05.14"
+        }
+      ]
+    },
+    "message": ""
+  }
+  

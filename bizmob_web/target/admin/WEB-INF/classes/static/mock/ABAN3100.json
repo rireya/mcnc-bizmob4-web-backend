@@ -1,0 +1,23 @@
+{
+    "status": true,
+    "code": null,
+    "data": {
+      "bannerId": "4",
+      "order": 1,
+      "startDate": "2025-01-23 12:40",
+      "endDate": null,
+      "attachFile": {
+        "attachId": "4535",
+        "downloadCnt": "",
+        "downloadUrl": "https://www.wordstream.com/wp-content/uploads/2021/07/persuasive-ads-coca-cola-1.jpg",
+        "fileExtension": "png",
+        "fileName": "aaa",
+        "fileSize": 221352
+      },
+      "exposed": "Y",
+      "landingId": "event",
+      "landingLocation": "EVT0012"
+  
+    },
+    "message": ""
+  }

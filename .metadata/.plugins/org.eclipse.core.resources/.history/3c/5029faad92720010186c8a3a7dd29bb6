@@ -1,0 +1,18 @@
+package com.mcnc.sm.hiplus.domain.menu.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.mcnc.bizmob.web.domain.menu.dto.MenuDto;
+
+@Mapper
+public interface MenuMapper {
+	public String selectNextCodeId();
+	public List<MenuDto> selectMenuList(String parentMenuId);
+	public MenuDto selectMenuDetail(String menuId);
+	public int insertMenu(MenuDto menuDto);
+	public int updateMenu(MenuDto menuDto); 
+	public int deleteMenu(String menuId);
+	public List<MenuDto> selectSideMenuList(String parentMenuId);
+}

@@ -1,0 +1,73 @@
+package com.mcnc.bizmob.web.domain.group.controller;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.mcnc.bizmob.web.domain.board.notice.dto.PageRequest;
+import com.mcnc.bizmob.web.domain.group.dto.response.GetGroupListResponse;
+import com.mcnc.bizmob.web.domain.group.dto.response.GetMappedGroupMenuResponse;
+import com.mcnc.bizmob.web.domain.group.dto.response.GetUserGroupResponse;
+import com.mcnc.bizmob.web.domain.group.dto.response.RegisterMappedGroupMenuResponse;
+import com.mcnc.bizmob.web.domain.group.service.GroupService;
+import com.mcnc.sm.hiplus.domain.group.dto.request.GetMappedGroupMenuRequest;
+import com.mcnc.sm.hiplus.domain.group.dto.request.GetUserGroupRequest;
+import com.mcnc.sm.hiplus.domain.group.dto.request.RegisterMappedGroupMenuRequest;
+import com.mcnc.sm.hiplus.global.dto.response.ApiResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@RestController
+@RequestMapping("/api/group")
+@Tag(name = "[SMAD2xxx] 권한(그룹) 관련 Controller", description = "메뉴에 따른 권한 설정을 수행합니다.")
+public class GroupController {
+	
+	@Autowired
+	private GroupService groupService;
+	
+	@PostMapping("/info")
+    @Operation(summary = "[SMAD2001] 사용자 그룹(권한) 조회", description = "사용자의 권한(그룹)을 조회합니다.")
+    public ResponseEntity<ApiResponse<GetUserGroupResponse>> getGroupByUser(@Valid @RequestBody GetUserGroupRequest request) {
+		ApiResponse<GetUserGroupResponse> response = new ApiResponse<>(true, "사용자 권한 조회 성공"); 
+		
+		response.setData(groupService.getGroupByUser(request));
+		
+		return ResponseEntity.ok(response);
+    }
+	
+	@PostMapping("/list")
+    @Operation(summary = "[SMAD2002] 그룹(권한) 목록 조회", description = "권한(그룹) 목록을 조회합니다.")
+    public ResponseEntity<ApiResponse<GetGroupListResponse>> getGroupList(@Valid @RequestBody PageRequest request) {
+		ApiResponse<GetGroupListResponse> response = new ApiResponse<>(true, "사용자 권한 조회 성공"); 
+		
+		response.setData(groupService.getGroupList(request));
+		
+		return ResponseEntity.ok(response);
+    }
+	
+	@PostMapping("/menu/mapping/list")
+    @Operation(summary = "[SMAD2003] 그룹(권한)에 해당하는 접근 가능 메뉴 목록 조회", description = "그룹(권한)에 해당하는 접근 가능 메뉴 목록 조회합니다.")
+    public ResponseEntity<ApiResponse<GetMappedGroupMenuResponse>> getMappedGroupByMenu(@Valid @RequestBody GetMappedGroupMenuRequest request) {
+		ApiResponse<GetMappedGroupMenuResponse> response = new ApiResponse<>(true, "사용자 권한 조회 성공"); 
+		
+		response.setData(groupService.getMappedGroupByMenu(request));
+		
+		return ResponseEntity.ok(response);
+    }
+
+	@PostMapping("/menu/mapping/register")
+    @Operation(summary = "[SMAD2004] 그룹(권한)에 해당하는 접근 가능 메뉴 설정", description = "그룹(권한)에 해당하는 접근 가능 메뉴 설정합니다")
+    public ResponseEntity<ApiResponse<RegisterMappedGroupMenuResponse>> registerMappedGroupByMenu(@Valid @RequestBody RegisterMappedGroupMenuRequest request) {
+		ApiResponse<RegisterMappedGroupMenuResponse> response = new ApiResponse<>(true, "사용자 권한 조회 성공"); 
+		
+		response.setData(groupService.registerMappedGroupByMenu(request));
+		
+		return ResponseEntity.ok(response);
+    }
+}

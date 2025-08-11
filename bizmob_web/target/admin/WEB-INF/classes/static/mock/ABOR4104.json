@@ -1,0 +1,21 @@
+{
+  "header": {
+    "trcode": "ABOR4104",
+    "result": true,
+    "error_code": "",
+    "error_text": "",
+    "info_text": ""
+  },
+  "body": {
+    "fileUidList": [
+      {
+        "attachFileNo": "426087",
+        "fileUid": "5735443"
+      },
+      {
+        "attachFileNo": "426087",
+        "fileUid": "5734574"
+      }
+    ]
+  }
+}
