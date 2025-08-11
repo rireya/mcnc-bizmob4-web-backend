@@ -12,8 +12,8 @@
 	<artifactId>hiplus</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>hiplus</name>
-	<description>SM hiplus project for Spring Boot</description>
+	<name>bizmobWeb</name>
+	<description>BIZMOB Web project for Spring Boot</description>
 	<url/>
 	<licenses>
 		<license/>
