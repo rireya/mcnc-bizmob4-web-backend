@@ -1,0 +1,23 @@
+{
+  "status": true,
+  "code": null,
+  "data": {
+    "bannerId": "5",
+    "order": 1,
+    "startDate": "2025-01-23 12:40",
+    "endDate": null,
+    "attachFile": {
+      "attachId": "4535",
+      "downloadCnt": "",
+      "downloadUrl": "https://media.istockphoto.com/id/1443562748/photo/cute-ginger-cat.jpg?s=612x612&w=0&k=20&c=vvM97wWz-hMj7DLzfpYRmY2VswTqcFEKkC437hxm3Cg=",
+      "fileExtension": "png",
+      "fileName": "aaa",
+      "fileSize": 221352
+    },
+    "exposed": "Y",
+    "landingId": "event",
+    "landingLocation": "EVT0012"
+
+  },
+  "message": ""
+}

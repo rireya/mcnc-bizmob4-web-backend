@@ -1,0 +1,31 @@
+{
+  "header": {
+    "trcode": "ABOR3100",
+    "result": true,
+    "error_code": "",
+    "error_text": "",
+    "info_text": ""
+  },
+  "body": {
+    "categoryCode": "INFO1",
+    "categoryCode2": "INFO22",
+    "title": "에러는 줄이고 편리함을 높이는 하이패스 이용방법",
+    "seq": 10,
+    "exposedYn": "Y",
+    "postId": "INF0001",
+    "contentBlocks": [
+        {
+            "files": [],
+            "content": "하이패스 단말기 2차량 1단말기 사용!!단말기 1대로 여러차량 이용불가차량 변경 시 단말기 정보 필히 변경단말기는 반드시 등록 후 사용합니다. ",
+            "linkUrl": "html",
+            "linkAddress": "address"
+        },
+                {
+                  "files": [],
+                  "content": "하이패스 단말기 2차량 1단말기 사용!!단말기 1대로 여러차량 이용불가차량 변경 시 단말기 정보 필히 변경단말기는 반드시 등록 후 사용합니다. ",
+                  "linkUrl": "css",
+                  "linkAddress": "address"
+                }
+    ]
+  }
+}

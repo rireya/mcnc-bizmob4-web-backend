@@ -1,0 +1,27 @@
+package com.mcnc.bizmob.web.domain.commonCode.dto.response;
+
+import java.time.LocalDateTime;
+
+import com.mcnc.bizmob.web.domain.commonCode.enums.DefineType;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
+public class GetCommonCodeDetailResponse {
+	private String codeId;
+	private String codeName;
+	private String codeType;
+	private String status;
+	private DefineType defineType;
+	private String codeAlias;
+	
+	private LocalDateTime createDate;
+	private LocalDateTime updateDate;
+}

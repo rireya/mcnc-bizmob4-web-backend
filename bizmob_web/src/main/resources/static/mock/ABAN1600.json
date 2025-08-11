@@ -1,0 +1,41 @@
+{
+  "status": true,
+  "code": null,
+  "data": {
+    "bannerList": [
+      {
+        "id": "4",
+        "no": "4",
+        "image": "https://media.istockphoto.com/id/1443562748/photo/cute-ginger-cat.jpg?s=612x612&w=0&k=20&c=vvM97wWz-hMj7DLzfpYRmY2VswTqcFEKkC437hxm3Cg=",
+        "landing": "https://www.hipluscard.co.kr/aa",
+        "status": "N",
+        "registerDate": "2025.05.15"
+      },
+      {
+        "id": "3",
+        "no": "3",
+        "image": "https://media.istockphoto.com/id/1443562748/photo/cute-ginger-cat.jpg?s=612x612&w=0&k=20&c=vvM97wWz-hMj7DLzfpYRmY2VswTqcFEKkC437hxm3Cg=",
+        "landing": "애드팝콘오퍼월 목록",
+        "status": "Y",
+        "registerDate": "2025.05.15"
+      },
+      {
+        "id": "2",
+        "no": "2",
+        "image": "https://media.istockphoto.com/id/1443562748/photo/cute-ginger-cat.jpg?s=612x612&w=0&k=20&c=vvM97wWz-hMj7DLzfpYRmY2VswTqcFEKkC437hxm3Cg=",
+        "landing": "혜택메인",
+        "status": "Y",
+        "registerDate": "2025.05.15"
+      },
+      {
+        "id": "1",
+        "no": "1",
+        "image": "https://media.istockphoto.com/id/1443562748/photo/cute-ginger-cat.jpg?s=612x612&w=0&k=20&c=vvM97wWz-hMj7DLzfpYRmY2VswTqcFEKkC437hxm3Cg=",
+        "landing": "NOT0010",
+        "status": "Y",
+        "registerDate": "2025.05.14"
+      }
+    ]
+  },
+  "message": ""
+}

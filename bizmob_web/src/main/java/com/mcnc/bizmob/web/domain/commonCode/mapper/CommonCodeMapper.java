@@ -1,0 +1,27 @@
+package com.mcnc.bizmob.web.domain.commonCode.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.mcnc.bizmob.web.domain.commonCode.dto.CommonCodeDto;
+import com.mcnc.bizmob.web.domain.commonCode.dto.PostLocationCommonCodeDto;
+import com.mcnc.bizmob.web.domain.commonCode.dto.request.PostLocationRequestDto;
+
+@Mapper
+public interface CommonCodeMapper {
+	public CommonCodeDto selectCodeIdByBoardType(String boardType);
+	public List<CommonCodeDto> selectCommonCodeList(String parentCodeId);
+	public CommonCodeDto selectCommonCodeDetail(String commonCodeId);
+	public String selectNextCommonCodeId();
+	public int insertCommonCode(CommonCodeDto commonCode);
+	public int updateCommonCode(CommonCodeDto commonCode);
+	public int deleteCommonCode(String codeId);
+
+	public List<PostLocationCommonCodeDto> selectPostLocations(String parentCodeId);
+	
+	public String selectPostLocationCodeId(PostLocationRequestDto request);
+	
+	public List<CommonCodeDto> getBoardCategoryIds(String parentCodeId);
+
+}

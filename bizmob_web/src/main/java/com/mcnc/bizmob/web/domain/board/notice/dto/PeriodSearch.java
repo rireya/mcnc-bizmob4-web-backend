@@ -1,0 +1,28 @@
+package com.mcnc.bizmob.web.domain.board.notice.dto;
+
+import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.mcnc.bizmob.web.domain.board.notice.enums.PeriodType;
+import com.mcnc.bizmob.web.global.util.annotaion.DateTimeCustomFormat;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class PeriodSearch {
+	private PeriodType periodType; // (게시:PUB, 등록:CRE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Schema(type = "string", format = "date-time", example = "2024-11-25T10:32:19")
+	private LocalDateTime periodStartDate;
+	@DateTimeCustomFormat
+    @Schema(type = "string", format = "date-time", example = "2024-11-25T10:32:19")
+	private LocalDateTime periodEndDate;
+}

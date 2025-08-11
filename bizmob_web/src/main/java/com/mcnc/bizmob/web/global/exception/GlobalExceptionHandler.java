@@ -1,0 +1,68 @@
+package com.mcnc.bizmob.web.global.exception;
+
+import java.util.stream.Collectors;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.mcnc.bizmob.web.global.dto.response.ApiResponse;
+
+import lombok.extern.slf4j.Slf4j;
+
+@ControllerAdvice
+@RestController
+@Slf4j
+public class GlobalExceptionHandler {
+
+	/**
+	 * javax.validation.Valid or @Validated 으로 binding error 발생시 발생한다.
+	 * @param ex
+	 * @return
+	 */
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Void>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        String errorMessage = ex.getBindingResult()
+                                .getAllErrors()
+                                .stream()
+                                .map(ObjectError::getDefaultMessage)
+                                .collect(Collectors.joining(", "));
+
+        ApiResponse<Void> response = new ApiResponse<>(false, errorMessage);
+        
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+	
+	 /**
+     * 커스텀 오류 발생시 발생한다.
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(InternalServerException.class)
+    public ResponseEntity<ApiResponse<?>> handleInternalServerException(InternalServerException e) {
+        ApiResponse<?> response = new ApiResponse<>(false, e.getMessage());	
+        response.setCode(e.getErrorCode().getCode());
+        log.error("handleInternalServerException", e);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    
+    
+    /**
+     * 사용자 입력오류
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ApiResponse<?>> handleValidationException(ValidationException e) {
+        ApiResponse<?> response = new ApiResponse<>(false, e.getMessage());	
+        response.setCode(e.getErrorCode().getCode());
+        log.error("ValidationException", e);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+    
+}

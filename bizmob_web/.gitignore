@@ -1,0 +1,78 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+**/target/**
+**/bin/**
+**/**/.settings
+**/**/.classpath
+**/**/.factorypath
+**/**/.project
+
+# Eclipse 프로젝트 설정 폴더
+.project
+.classpath
+.settings/
+
+# Eclipse 메타데이터
+.metadata/
+
+# 빌드 출력물
+bin/
+build/
+target/
+
+# 로그 파일
+*.log
+
+# 운영체제별 임시 파일
+.DS_Store          # macOS
+Thumbs.db          # Windows
+ehthumbs.db
+Icon?
+
+# 자바 컴파일 산출물
+*.class
+
+# IDE 관련
+# VS Code 사용 시
+.vscode/
+
+# IDE 캐시
+*.iml
+.idea/
+
+# 기타 임시파일
+*.tmp
+*.bak
+*.swp

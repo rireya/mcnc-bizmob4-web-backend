@@ -1,0 +1,34 @@
+package com.mcnc.bizmob.web.domain.group.dto;
+
+import com.mcnc.bizmob.web.domain.group.dto.response.GetUserGroupResponse;
+import com.mcnc.bizmob.web.global.domain.BaseEntity;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class GroupDto extends BaseEntity {
+	private String grpId;
+	private String grpCode;
+	private String grpName;
+	
+	public GroupInfo of() {
+		return GroupInfo.builder()
+				.groupId(grpId)
+				.groupCode(grpCode)
+				.groupName(grpName)
+				.build();
+	}
+	
+	public GetUserGroupResponse toResponse() {
+		return GetUserGroupResponse.builder()
+				.groupId(grpId)
+				.groupCode(grpCode)
+				.groupName(grpName)
+				.build();
+	}
+}

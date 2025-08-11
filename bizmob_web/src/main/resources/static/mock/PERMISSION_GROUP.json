@@ -1,0 +1,66 @@
+{
+  "status": true,
+  "code": null,
+  "data": {
+    "groupList": [
+      {
+        "groupName": "사용중지",
+        "groupId": "GRUP_00000004",
+        "groupCode": "9999"
+      },
+      {
+        "groupName": "CRM운영팀",
+        "groupId": "GRUP_00000005",
+        "groupCode": "0015"
+      },
+      {
+        "groupName": "개발자",
+        "groupId": "GRUP_00000006",
+        "groupCode": "0000"
+      },
+      {
+        "groupName": "관리자",
+        "groupId": "GRUP_00000007",
+        "groupCode": "0001"
+      },
+      {
+        "groupName": "임원",
+        "groupId": "GRUP_00000008",
+        "groupCode": "0002"
+      },
+      {
+        "groupName": "경영기획팀",
+        "groupId": "GRUP_00000009",
+        "groupCode": "0004"
+      },
+      {
+        "groupName": "마케팅기획팀",
+        "groupId": "GRUP_00000010",
+        "groupCode": "0006"
+      },
+      {
+        "groupName": "재무팀",
+        "groupId": "GRUP_00000011",
+        "groupCode": "0007"
+      },
+      {
+        "groupName": "디지털전략팀",
+        "groupId": "GRUP_00000012",
+        "groupCode": "0009"
+      },
+      {
+        "groupName": "콜센터",
+        "groupId": "GRUP_00000013",
+        "groupCode": "0012"
+      },
+      {
+        "groupName": "전산센터",
+        "groupId": "GRUP_00000014",
+        "groupCode": "0013"
+      }
+    ],
+    "totalGroup": 21,
+    "totalPage": 3
+  },
+  "message": ""
+}

@@ -1,0 +1,37 @@
+package com.mcnc.bizmob.web.domain.commonCode.dto.request;
+
+import javax.validation.constraints.NotBlank;
+
+import com.mcnc.bizmob.web.domain.commonCode.dto.CommonCodeDto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class RegisterCommonCodeRequest {
+	@Schema(description = "상위 코드 ID")
+	private String parentCodeId;
+	
+	@NotBlank(message = "코드 명을 입력해주세요")
+	@Schema(description = "코드 명")
+	private String codeName;
+	
+	@Schema(description = "공통코드 활성화 여부(0: 비활성, 1:활성)", defaultValue = "1", allowableValues = {"0", "1"})
+	private String status;
+	
+	@Schema(description = " 코드 별칭")
+	private String codeAlias;
+	
+	public CommonCodeDto toDto() {
+		return CommonCodeDto.builder()
+				.codeName(codeName)
+				.parentCodeId(parentCodeId)
+				.status(status)
+				.codeAlias(codeAlias)
+				.createBy("admin")
+				.build();
+	}
+}

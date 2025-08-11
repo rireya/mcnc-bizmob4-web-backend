@@ -1,0 +1,170 @@
+package com.mcnc.bizmob.web.global.service;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.mcnc.bizmob.web.domain.attachFile.dto.AttachFileDto;
+import com.mcnc.bizmob.web.domain.commonCode.enums.BoardType;
+import com.mcnc.bizmob.web.global.exception.ErrorCode;
+import com.mcnc.bizmob.web.global.exception.InternalServerException;
+import com.oracle.bmc.model.BmcException;
+import com.oracle.bmc.objectstorage.ObjectStorageClient;
+import com.oracle.bmc.objectstorage.model.StorageTier;
+import com.oracle.bmc.objectstorage.requests.DeleteObjectRequest;
+import com.oracle.bmc.objectstorage.requests.PutObjectRequest;
+import com.oracle.bmc.objectstorage.responses.DeleteObjectResponse;
+import com.oracle.bmc.objectstorage.transfer.UploadManager;
+import com.oracle.bmc.objectstorage.transfer.UploadManager.UploadRequest;
+import com.oracle.bmc.objectstorage.transfer.UploadManager.UploadResponse;
+import com.oracle.bmc.util.StreamUtils;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+/**
+ * https://github.com/oracle/oci-java-sdk/blob/master/bmc-objectstorage/bmc-objectstorage-extensions/src/test/java/com/oracle/bmc/objectstorage/transfer/UploadManagerTest.java
+ * 참고
+ */
+public class OCIObjectStorageService {
+	
+	@Value("${oci.object.storage.path}")
+	private String ociPath;
+	
+	@Value("${oci.object.storage.namespace}")
+	private String namespace;
+	
+	@Value("${oci.object.storage.bucket-name}")
+	private String bucketName;
+	
+	@Value("${oci.object.storage.config.datafile.repository.base-dir}")
+	private String baseDir;
+	
+	@Autowired
+    private UploadManager uploadManager;
+	
+	@Autowired
+	private ObjectStorageClient objectStorageClient;
+	
+	public void upload(AttachFileDto attachFileDto) {
+		try {
+			MultipartFile file = attachFileDto.getFile();
+			String originalFileName = attachFileDto.getFileName();
+	        String filePath = attachFileDto.getFilePath(); 
+	        
+			upload(filePath, originalFileName, file.getBytes());
+			
+		} catch (BmcException e) {
+			throw e;
+		} catch (InternalServerException e) {
+			throw e;
+		} catch (IOException e) {
+			throw new InternalServerException(ErrorCode.FILE_UPLOAD_FAIL, e);
+		}
+		
+	}
+	
+	public void upload(String fileName, String originalFilename, byte[] fileByte) throws InternalServerException {
+		try{
+			String fileKey = baseDir + "/" + fileName;
+			
+			Map<String, String> metadata = new HashMap<>();
+	        metadata.put("original-filename", originalFilename);
+	        
+	        // 업로드 요청 생성
+	        PutObjectRequest request = PutObjectRequest.builder()
+	        		.namespaceName(namespace)
+	        		.bucketName(bucketName)
+	        		.objectName(fileKey)
+	                .opcMeta(metadata)
+	                .storageTier(StorageTier.InfrequentAccess)
+	                .build();
+	      
+	        InputStream body = StreamUtils.createByteArrayInputStream(fileByte);
+	        UploadRequest uploadRequest = UploadRequest.builder(body, fileByte.length)
+	        		.build(request);
+	        
+	        // 업로드 실행 및 응답
+	        UploadResponse uploadResponse = uploadManager.upload(uploadRequest);
+	        String eTag = uploadResponse.getETag();
+	        String md5 = uploadResponse.getContentMd5();
+	        String reqId = uploadResponse.getOpcRequestId();
+	        String clientReqId = uploadResponse.getOpcClientRequestId();
+	        
+	        log.debug("OCI Uploaded eTag : {}", eTag);
+	        log.debug("OCI Uploaded md5 : {}", md5);
+	        log.debug("OCI Uploaded reqId : {}", reqId);
+	        log.debug("OCI Uploaded clientReqId : {}", clientReqId);
+		
+		} catch (BmcException e) {
+	    	log.error("oci 파일 업로드 오류 : {}", e.getMessage());
+	    	throw e;
+		} catch (Exception e) {
+			log.error("Upload failed: {}", e.getMessage());
+			throw new InternalServerException(ErrorCode.FILE_UPLOAD_FAIL, e);
+		}
+        
+    }
+	
+	/**
+	 * TODO 삭제하고 오류 발생시 핸들링 처리
+	 * @param fileName
+	 */
+	public void deleteFile(String fileName) {
+	    try {
+	    	String fileKey = baseDir + "/" + fileName;
+	    	
+	        DeleteObjectRequest deleteRequest = DeleteObjectRequest.builder()
+	                .namespaceName(namespace)
+	                .bucketName(bucketName)
+	                .objectName(fileKey)
+	                .build();
+	        
+	        DeleteObjectResponse deleteResponse = objectStorageClient.deleteObject(deleteRequest);
+	        log.debug("deleteResponse statusCode : {}", deleteResponse.get__httpStatusCode__());
+	        log.debug("Deleted file: {}", fileName);
+	   
+	    } catch (BmcException e) {
+	    	log.error("oci 파일 삭제 오류 (무시) : {}", e.getMessage());
+	    } catch (Exception e) {
+	        log.error("Failed to delete file: {}", e.getMessage());
+	    }
+	}
+	
+	public String getOCIFileUrl() {
+		return ociPath + "/" +baseDir + "/";
+	}
+	
+	public String generateUniqueFileName(AttachFileDto attachFileDto) {
+		String originalFileName = attachFileDto.getFileName();
+		String docId = attachFileDto.getDocId();
+		BoardType boardType = attachFileDto.getBoardType();
+		
+		String uuid = UUID.randomUUID().toString();
+		String fileExtension = StringUtils.getFilenameExtension(originalFileName);
+		
+		return boardType + "/" +docId + "_" + uuid + "." +fileExtension;
+	}
+	
+	public String generateUniqueBannerName(AttachFileDto attachFileDto) {
+		String originalFileName = attachFileDto.getFileName();
+		String docId = attachFileDto.getDocId();
+		String bannerType = attachFileDto.getBannerType();
+		
+		
+		String uuid = UUID.randomUUID().toString();
+		String fileExtension = StringUtils.getFilenameExtension(originalFileName);
+		
+		return bannerType + "/" +docId + "_" + uuid + "." +fileExtension;
+	}
+}

@@ -1,0 +1,25 @@
+{
+    "header": {
+        "result": true,
+        "error_code": "",
+        "error_text": "",
+        "trcode": "mock-DM0003"
+    },
+    "body": {
+        "userGroupId": "12345",
+        "userGroupName": "전체 사용자",
+        "emergencyNoticeYn": "Y",
+        "title": "긴급 공지사항",
+        "content": "<p>여기는 에디터로 작성된 공지 내용입니다.</p>",
+        "attachNo": "67890",
+        "activeYn": "Y",
+        "startDate": "20240701",
+        "endDate": "20240710",
+        "creatorId": "admin001",
+        "creatorName": "홍길동",
+        "createDate": "2024-07-01T09:00:00",
+        "updaterId": "editor002",
+        "updaterName": "김편집",
+        "updateDate": "2024-07-02T15:00:00"
+    }
+}

@@ -1,0 +1,22 @@
+package com.mcnc.bizmob.web.domain.user.service;
+
+import com.mcnc.bizmob.web.domain.user.dto.request.UserLoginRequest;
+import com.mcnc.bizmob.web.domain.user.dto.response.UserLoginResponse;
+
+public interface UserService {
+	
+	/**
+	 * 사용자 로그인 검증 후 jwt 토큰 발급
+	 * @param request
+	 * @return
+	 */
+	public UserLoginResponse userLoginAndCreateJwtToken(UserLoginRequest request);
+	
+	/**
+	 * 사용자 로그인 검증
+	 * @param request
+	 * @return
+	 */
+	public UserLoginResponse login(UserLoginRequest request);
+ 
+}

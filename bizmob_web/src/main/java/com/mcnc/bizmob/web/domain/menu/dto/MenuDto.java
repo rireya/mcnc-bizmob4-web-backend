@@ -1,0 +1,46 @@
+package com.mcnc.bizmob.web.domain.menu.dto;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.mcnc.bizmob.web.domain.menu.dto.response.GetMenuDetailResponse;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class MenuDto {
+	private String menuId;
+	private String parentMenuId;
+	private String menuName;
+	private String menuUrl;
+	private String description;
+	private String status;
+	private List<MenuDto> subMenuList;
+	
+	private LocalDateTime createDate;
+	private String createBy;
+	private LocalDateTime updateDate;
+	private String updateBy;
+	
+	public GetMenuDetailResponse toResponseDetail() {
+		return GetMenuDetailResponse.builder()
+				.menuId(menuId)
+				.menuName(menuName)
+				.menuUrl(menuUrl)
+				.description(description)
+				.status(status)
+				.createDate(createDate)
+				.updateDate(updateDate)
+				.build();
+	}
+	
+}

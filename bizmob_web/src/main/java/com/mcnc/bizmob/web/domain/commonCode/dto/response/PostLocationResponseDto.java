@@ -1,0 +1,14 @@
+package com.mcnc.bizmob.web.domain.commonCode.dto.response;
+
+import java.util.List;
+
+import com.mcnc.bizmob.web.domain.commonCode.dto.PostLocationCommonCodeDto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class PostLocationResponseDto {
+    private List<PostLocationCommonCodeDto> postLocationList;       // CommonCodeDto 리스트
+}

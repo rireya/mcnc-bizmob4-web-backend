@@ -1,0 +1,44 @@
+package com.mcnc.sm.hiplus;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.mcnc.bizmob.web.domain.user.dto.request.UserLoginRequest;
+import com.mcnc.bizmob.web.domain.user.dto.response.UserLoginResponse;
+import com.mcnc.bizmob.web.domain.user.service.UserService;
+import com.mcnc.bizmob.web.global.dto.response.ApiResponse;
+
+@SpringBootTest
+class HiplusApplicationTests {
+	
+	@Autowired
+	
+	private UserService userService;
+
+	@Test
+	void contextLoads() {
+	}
+	
+	
+	@Test
+	public ResponseEntity<ApiResponse<UserLoginResponse>> login(@Valid @RequestBody UserLoginRequest request, HttpServletRequest servletRequest) {
+			
+			request.setUserId("aaaa");
+			request.setPassword("1234");
+	    	ApiResponse<UserLoginResponse> response = new ApiResponse<>(true, "사용자 로그인 성공"); 
+			response.setData(userService.login(request));
+			
+			HttpSession session = servletRequest.getSession(true);
+		    session.setAttribute("userId", response.getData().getUserId()); 
+		    
+			return ResponseEntity.ok(response);
+	    }    
+
+}

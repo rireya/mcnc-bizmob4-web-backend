@@ -1,0 +1,117 @@
+{
+  "status": true,
+  "code": null,
+  "data": {
+    "bannerList": [
+      {
+        "id": "12",
+        "no": "12",
+        "image": "https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o/banner/12.jpg",
+        "landing": "EVT0010",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.21"
+      },
+      {
+        "id": "11",
+        "no": "11",
+        "image": "https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o/banner/11.jpg",
+        "landing": "NOT0010",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "N",
+        "registerDate": "2025.05.20"
+      },
+      {
+        "id": "10",
+        "no": "10",
+        "image": "https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o/banner/10.jpg",
+        "landing": "혜택메인",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.19"
+      },
+      {
+        "id": "9",
+        "no": "9",
+        "image": "https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o/banner/9.jpg",
+        "landing": "https://www.hipluscard.co.kr/aa",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.18"
+      },
+      {
+        "id": "8",
+        "no": "8",
+        "image": "https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o/banner/8.jpg",
+        "landing": "애드팝콘오퍼월 목록",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.17"
+      },
+      {
+        "id": "7",
+        "no": "7",
+        "image": "https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o/banner/7.jpg",
+        "landing": "EVT0010",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.17"
+      },
+      {
+        "id": "6",
+        "no": "6",
+        "image": "https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o/banner/6.jpg",
+        "landing": "NOT0010",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.16"
+      },
+      {
+        "id": "5",
+        "no": "5",
+        "image": "https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o/banner/5.jpg",
+        "landing": "EVT0010",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.15"
+      },
+      {
+        "id": "4",
+        "no": "4",
+        "image": "https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o/banner/4.jpg",
+        "landing": "https://www.hipluscard.co.kr/aa",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.15"
+      },
+      {
+        "id": "3",
+        "no": "3",
+        "image": "https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o/banner/3.jpg",
+        "landing": "애드팝콘오퍼월 목록",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.15"
+      },
+      {
+        "id": "2",
+        "no": "2",
+        "image": "https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o/banner/2.jpg",
+        "landing": "혜택메인",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.15"
+      },
+      {
+        "id": "1",
+        "no": "1",
+        "image": "https://objectstorage.ap-seoul-1.oraclecloud.com/n/cngqwwdzwjo6/b/DEV-MOB-BK/o/banner/1.jpg",
+        "landing": "NOT0010",
+        "period": "2025.05.21 09:30 ~ 상시",
+        "status": "Y",
+        "registerDate": "2025.05.14"
+      }
+    ]
+  },
+  "message": ""
+}

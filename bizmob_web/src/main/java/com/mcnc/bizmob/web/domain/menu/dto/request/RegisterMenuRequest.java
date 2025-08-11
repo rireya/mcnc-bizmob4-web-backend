@@ -1,0 +1,42 @@
+package com.mcnc.bizmob.web.domain.menu.dto.request;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
+import com.mcnc.bizmob.web.domain.menu.dto.MenuDto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class RegisterMenuRequest {
+	@Schema(description = "상위 카테고리 ID")
+	private String parentMenuId;
+	
+	@NotBlank(message = "메뉴 명을 입력해주세요")
+	@Schema(description = "메뉴 명")
+	private String menuName;
+	
+	@Schema(description = "메뉴 URL")
+	private String menuUrl;
+	
+	@Schema(description = "메뉴 설명")
+	private String description;
+	
+	@Schema(description = "메뉴 활성화 여부(0: 비활성, 1:활성)", defaultValue = "1", allowableValues = {"0", "1"})
+	private String status;
+	
+	public MenuDto toDto() {
+		return MenuDto.builder()
+				.parentMenuId(parentMenuId)
+				.menuName(menuName)
+				.menuUrl(menuUrl)
+				.description(description)
+				.status(status)
+				.createBy("admin")
+				.build();
+	}
+}

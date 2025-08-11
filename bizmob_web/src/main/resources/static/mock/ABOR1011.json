@@ -1,0 +1,41 @@
+{
+  "status": true,
+  "code": null,
+  "data": {
+    "categoryList": [
+      {
+        "codeId": "CODE_00000020",
+        "codeName": "뉴스",
+        "codeType": null,
+        "subCategoryList": [
+          {
+            "codeId": "CODE_00000021",
+            "codeName": "시사",
+            "codeType": null,
+            "subCategoryList": []
+          },
+          {
+            "codeId": "CODE_00000022",
+            "codeName": "연예",
+            "codeType": null,
+            "subCategoryList": []
+          }
+        ]
+      },
+      {
+        "codeId": "CODE_00000023",
+        "codeName": "기타소식",
+        "codeType": null,
+        "subCategoryList": [
+          {
+            "codeId": "CODE_00000024",
+            "codeName": "직원 경조사",
+            "codeType": null,
+            "subCategoryList": []
+          }
+        ]
+      }
+    ]
+  },
+  "message": "특정 게시판의 카테고리 목록을 조회 성공"
+}
