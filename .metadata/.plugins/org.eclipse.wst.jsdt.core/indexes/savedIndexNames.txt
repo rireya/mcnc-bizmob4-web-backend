@@ -1,6 +1,0 @@
-INDEX VERSION 1.4+D:\workspace\hiplus_admin\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-2181869535.index
-3740680603.index
-3703986113.index
-1213065549.index
-1931847151.index
