@@ -1,7 +1,0 @@
-{
-  "firstname": "{이름}",
-  "lastname": "{성}",
-  "id": "{아이디}",
-  "email": "{이메일}",
-  "access_token": "{액세스 토큰}",
-}
