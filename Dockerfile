@@ -15,7 +15,7 @@ FROM eclipse-temurin:17-jre
 WORKDIR /app
 
 # 빌드 결과 복사 (jar 파일명에 맞춰 경로 조정)
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/target/*.jar /app/app.jar
 
 # 컨테이너 내부 기준 기본 포트 (문서화 용도)
 EXPOSE 8080
