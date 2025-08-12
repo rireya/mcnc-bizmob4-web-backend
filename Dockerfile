@@ -1,24 +1,30 @@
-# ---------- Build Stage ----------
-FROM maven:3.9.8-eclipse-temurin-17 AS build
-WORKDIR /app
+# ---------- Build stage ----------
+FROM maven:3.9-eclipse-temurin-17 AS build
 
-# 의존성 캐시 최적화
+# 워킹 디렉터리
+WORKDIR /workspace
+
+# 의존성 캐시를 위해 먼저 POM만 복사 후 다운로드
 COPY pom.xml .
-RUN mvn -q -B -DskipTests dependency:go-offline
+RUN mvn -B -q dependency:go-offline
 
-# 소스 복사 & 패키징
+# 이후 소스 추가
 COPY src ./src
-RUN mvn -q -B -DskipTests package
 
-# ---------- Runtime Stage ----------
-FROM eclipse-temurin:17-jre
-WORKDIR /app
+# 테스트는 CI에서 하고, 컨테이너 빌드는 속도 위해 생략 권장
+RUN mvn -B -q -DskipTests package
 
-# 빌드 결과 복사 (jar 파일명에 맞춰 경로 조정)
-COPY --from=build /app/target/*.jar /app/app.jar
+# ---------- Runtime stage ----------
+# javax 기반: tomcat:9-jdk17-temurin
+# jakarta 기반: tomcat:10.1-jdk17-temurin
+FROM tomcat:9-jdk17-temurin
 
-# 컨테이너 내부 기준 기본 포트 (문서화 용도)
+# 메모리 등 필요 시
+ENV JAVA_OPTS="-Xms256m -Xmx512m"
+
+# 컨텍스트 루트를 "/"로 쓰려면 ROOT.war에 배치
+# 빌드 산출물 이름이 바뀔 수 있으니 와일드카드로 매칭
+COPY --from=build /workspace/target/*.war /usr/local/tomcat/webapps/ROOT.war
+
 EXPOSE 8080
-
-# PORT는 플랫폼이 주입, application.properties에서 매핑됨
-ENTRYPOINT ["java","-XX:+UseG1GC","-XX:MaxRAMPercentage=75","-Djava.security.egd=file:/dev/./urandom","-jar","/app/app.jar"]
+CMD ["catalina.sh", "run"]
