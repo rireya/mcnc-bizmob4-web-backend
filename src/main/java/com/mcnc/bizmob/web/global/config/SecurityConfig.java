@@ -20,7 +20,7 @@ public class SecurityConfig{
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
             	.antMatchers("/login").permitAll() 
             	.antMatchers("/actuator/health").permitAll()
-            	.antMatchers(HttpMethod.GET, "/swagger-ui/**", "/swagger", "/v3/**").permitAll()	// 스웨거
+            	.antMatchers(HttpMethod.GET, "/health", "/swagger-ui/**", "/swagger", "/v3/**").permitAll()	// 스웨거
             	.antMatchers(HttpMethod.POST, "/api/**").permitAll()
 //            	.antMatchers(HttpMethod.POST, "/api/v1/**").hasAnyAuthority("ROLE_ADMIN")
             	.anyRequest().permitAll()
