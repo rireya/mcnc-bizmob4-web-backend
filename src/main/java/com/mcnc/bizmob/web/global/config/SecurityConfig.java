@@ -17,15 +17,17 @@ public class SecurityConfig{
 	 @Bean
 	 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+        	.csrf().disable()  // CSRF 보호 비활성화 (선택 사항)
+        	.headers().frameOptions().sameOrigin().and()
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
             	.antMatchers("/login").permitAll() 
-            	.antMatchers("/actuator/health").permitAll()
+            	 .antMatchers("/", "/health", "/actuator/health", "/actuator/health/**").permitAll()
             	.antMatchers(HttpMethod.GET, "/health", "/swagger-ui/**", "/swagger", "/v3/**").permitAll()	// 스웨거
+            	.antMatchers(HttpMethod.GET,  "/swagger-ui/**", "/swagger", "/v3/**").permitAll()	// 스웨거
             	.antMatchers(HttpMethod.POST, "/api/**").permitAll()
 //            	.antMatchers(HttpMethod.POST, "/api/v1/**").hasAnyAuthority("ROLE_ADMIN")
             	.anyRequest().permitAll()
             )
-            .csrf().disable()  // CSRF 보호 비활성화 (선택 사항)
             ;  
         
         return http.build();
