@@ -7,7 +7,7 @@
    	 SELECT sp_admin_login(
            #{P_USERID, jdbcType=VARCHAR},
            #{P_PWD,    jdbcType=VARCHAR}
-         ) AS R_RESULT
+         ) AS "R_RESULT"
     </select>
     
 </mapper>

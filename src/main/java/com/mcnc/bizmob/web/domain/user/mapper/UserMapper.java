@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserMapper {
-	public String callAdminLogin(Map<String, String> paramMap);
+	public void callAdminLogin(Map<String, String> paramMap);
 }

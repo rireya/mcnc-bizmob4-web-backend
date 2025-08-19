@@ -44,11 +44,11 @@ public class UserServiceImpl implements UserService {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put("P_USERID", userId);
 		paramMap.put("P_PWD", password);
-		//paramMap.put("R_RESULT", "");
+		paramMap.put("R_RESULT", "");
 		
-		String resultCode = userMapper.callAdminLogin(paramMap);
+		userMapper.callAdminLogin(paramMap);
 		
-		//String resultCode = paramMap.get("R_RESULT").replace(" " , "");
+		String resultCode = paramMap.get("R_RESULT").replace(" " , "");
 		log.debug("R_RESULT : {}",resultCode);
 
 		LoginResultType.isLoginSuccessful(resultCode);
