@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@ConditionalOnProperty(prefix="storage.oci", name="enabled", havingValue="true")
 /**
  * https://github.com/oracle/oci-java-sdk/blob/master/bmc-objectstorage/bmc-objectstorage-extensions/src/test/java/com/oracle/bmc/objectstorage/transfer/UploadManagerTest.java
  * 참고

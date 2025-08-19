@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ResourceUtils;
@@ -19,6 +20,7 @@ import com.oracle.bmc.objectstorage.transfer.UploadConfiguration;
 import com.oracle.bmc.objectstorage.transfer.UploadManager;
 
 @Configuration
+@ConditionalOnProperty(prefix="storage.oci", name="enabled", havingValue="true")
 public class OCIStorageConfig {
 	
 	@Value("${oci.object.storage.config.tenancy}")
