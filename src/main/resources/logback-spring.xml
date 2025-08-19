@@ -51,7 +51,7 @@
     	<maxFlushTime>60000</maxFlushTime>
     </appender>
     
-	<shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+	<!-- <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/> -->
       
     
  	<logger name="org.springframework" level="WARN"/>
