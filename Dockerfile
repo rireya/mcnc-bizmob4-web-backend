@@ -33,8 +33,9 @@ EXPOSE 8080
 
 # 필요 시 JVM 옵션을 JAVA_OPTS로 주입 가능 (Render의 환경변수로 설정 권장)
 # 예: -Xms256m -Xmx512m -XX:+UseG1GC 등
+# disableShutdownHook ShutdownHook중복으로인한 오류발생 방지
 ENTRYPOINT ["sh","-c","java $JAVA_OPTS -jar /app/app.jar"]
-ENV JAVA_OPTS="-Xms256m -Xmx512m"
+ENV JAVA_OPTS="-Dlogback.disableShutdownHook=true -Xms256m -Xmx512m"
 
 # 컨텍스트 루트를 "/"로 쓰려면 ROOT.war에 배치
 # 빌드 산출물 이름이 바뀔 수 있으니 와일드카드로 매칭
