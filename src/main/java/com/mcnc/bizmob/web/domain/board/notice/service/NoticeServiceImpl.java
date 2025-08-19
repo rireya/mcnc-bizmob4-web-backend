@@ -147,11 +147,11 @@ public class NoticeServiceImpl implements NoticeService {
            
             try {
             	// 순서 중요 (DB 선 저장 후 oci 업로드)
-            	String filePath = ociService.generateUniqueFileName(reqImgFileDto);
+            	String filePath = "";//ociService.generateUniqueFileName(reqImgFileDto);
             	reqImgFileDto.setFilePath(filePath);
             	fileMapper.insertAttachFile(reqImgFileDto);
             	
-    	        ociService.upload(reqImgFileDto);
+    	        //ociService.upload(reqImgFileDto);
             } catch (BmcException e) {
             	throw new InternalServerException(ErrorCode.DOC_REGISTER_FAIL, e.getMessage());
             } catch (InternalServerException e) {
@@ -182,7 +182,7 @@ public class NoticeServiceImpl implements NoticeService {
 		List<AttachFileDto> filesDto = fileMapper.selectAttachFileByDocId(noticeDocId);
 	    List<AttachFileInfo> files = new ArrayList<>();
 	    for (AttachFileDto fileDto : filesDto) {
-	    	fileDto.setOciFilePath(ociService.getOCIFileUrl());	    	
+	   //	fileDto.setOciFilePath(ociService.getOCIFileUrl());	    	
 	    	files.add(fileDto.of());
 	    }
 	    
@@ -264,11 +264,11 @@ public class NoticeServiceImpl implements NoticeService {
             
             try {
             	// 순서 중요(DB 저장 후 OCI저장)
-            	String filePath = ociService.generateUniqueFileName(reqImgFileDto);
+            	String filePath = "";//ociService.generateUniqueFileName(reqImgFileDto);
             	reqImgFileDto.setFilePath(filePath);
             	fileMapper.insertAttachFile(reqImgFileDto);
 
-            	ociService.upload(reqImgFileDto);
+            //	ociService.upload(reqImgFileDto);
             } catch (BmcException e) {
             	throw new InternalServerException(ErrorCode.DOC_UPDATE_FAIL, e.getMessage());
             } catch (InternalServerException e) {
@@ -286,7 +286,7 @@ public class NoticeServiceImpl implements NoticeService {
 		    		// 순서 중요 (DB 선삭제 후 OCI 삭제/ 지운 이미지 복구는 못함)
 		    		fileMapper.deleteAttachFile(attachFile.getAttachId());
 		    		
-		    		ociService.deleteFile(attachFile.getFilePath());
+		    	//	ociService.deleteFile(attachFile.getFilePath());
 		    	} catch (Exception e) {
                     log.warn("updateNoticeDoc()메소드 파일 삭제 중 일부 오류 발생: {}", e.getMessage()); 
 				}
@@ -316,7 +316,7 @@ public class NoticeServiceImpl implements NoticeService {
 			fileMapper.deleteAttachFileByDocId(docId);
 			
 		    for (AttachFileDto fileDto : filesDto) {
-		    	ociService.deleteFile(fileDto.getFilePath());
+		    //	ociService.deleteFile(fileDto.getFilePath());
 		    }
 		}  catch (Exception e) {
 			throw new InternalServerException(ErrorCode.DOC_DELETE_FAIL);
