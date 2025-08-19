@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,21 +23,22 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@ConditionalOnProperty(prefix="storage.oci", name="enabled", havingValue="true")
 public class AttachFileService {
 
-	@Autowired
-	private OCIObjectStorageService objectStorageService;
+	//@Autowired
+	//private OCIObjectStorageService objectStorageService;
 	
 	@Value("${image.file.download.path}")
 	private String imageDirPath;
-	
+	/*
 	public String uploadFile(AttachFileDto attachFileDto) throws IOException {
 		MultipartFile file = attachFileDto.getFile();
 		
 		try {
 			String originalFileName = attachFileDto.getFileName();
 	        String filePath = generateUniqueFileName(attachFileDto); 
-			objectStorageService.upload(filePath, originalFileName, file.getBytes());
+			//objectStorageService.upload(filePath, originalFileName, file.getBytes());
 			
 			return filePath;
 		} catch (IOException e) {
@@ -44,15 +46,16 @@ public class AttachFileService {
 			throw new InternalServerException(ErrorCode.FILE_UPLOAD_FAIL, e);
 		}
 		
-	}
-	
+		
+	} */
+	/*
 	public String deleteFile(AttachFileDto attachFileDto) throws IOException {
 		MultipartFile file = attachFileDto.getFile();
 		
 		try {
 			String originalFileName = attachFileDto.getFileName();
 	        String filePath = generateUniqueFileName(attachFileDto); 
-			objectStorageService.upload(filePath, originalFileName, file.getBytes());
+			//objectStorageService.upload(filePath, originalFileName, file.getBytes());
 			
 			return filePath;
 		} catch (IOException e) {
@@ -61,7 +64,7 @@ public class AttachFileService {
 		}
 		
 	}
-	
+	*/
 //	public String uploadFile(AttachFileDto attachFileDto) {
 //		MultipartFile file = attachFileDto.getFile();
 //		Path dirPath = Paths.get(imageDirPath);
