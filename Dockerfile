@@ -1,5 +1,6 @@
+
 # ---------- Build stage ----------
-FROM maven:3.9-eclipse-temurin-17 AS build
+FROM maven:3.9.8-eclipse-temurin-17 AS build
 
 # 워킹 디렉터리
 WORKDIR /workspace
@@ -15,16 +16,28 @@ COPY src ./src
 RUN mvn -B -q -DskipTests package
 
 # ---------- Runtime stage ----------
-# javax 기반: tomcat:9-jdk17-temurin
-# jakarta 기반: tomcat:10.1-jdk17-temurin
-FROM tomcat:9-jdk17-temurin
+FROM eclipse-temurin:17-jre
+WORKDIR /app
 
-# 메모리 등 필요 시
+# 부트 fat-jar만 복사( .original 제외 )
+COPY --from=build /workspace/target/*.jar /app/
+RUN set -eux; \
+    JAR="$(ls /app/*.jar | grep -v '.original' | head -n1)"; \
+    mv "$JAR" /app/app.jar; \
+    rm -f /app/*.original || true
+
+# Render가 주는 $PORT로 리슨 (기본 8080)
+ENV PORT=8080
+EXPOSE 8080
+
+
+# 필요 시 JVM 옵션을 JAVA_OPTS로 주입 가능 (Render의 환경변수로 설정 권장)
+# 예: -Xms256m -Xmx512m -XX:+UseG1GC 등
+ENTRYPOINT ["sh","-c","java $JAVA_OPTS -jar /app/app.jar"]
 ENV JAVA_OPTS="-Xms256m -Xmx512m"
 
 # 컨텍스트 루트를 "/"로 쓰려면 ROOT.war에 배치
 # 빌드 산출물 이름이 바뀔 수 있으니 와일드카드로 매칭
-COPY --from=build /workspace/target/*.war /usr/local/tomcat/webapps/ROOT.war
+#COPY --from=build /workspace/target/*.war /usr/local/tomcat/webapps/ROOT.war
 
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
+#CMD ["catalina.sh", "run"]
