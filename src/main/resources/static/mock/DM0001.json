@@ -16,22 +16,21 @@
         "display_type": null
     },
     "body": {
-        "user_type": "",
-        "company_id": "",
-        "license_no": "null",
-        "remote_wipe": false,
-        "access_limit": false,
+        "license_no": "",
         "attachment_download": true,
+        "access_limit": false,
         "app_tester": false,
+        "user_type": "",
+        "remote_wipe": false,
+        "company_id": "",
         "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0YmRhMzhlZi05NmMzLTRlMjYtODk2YS1hYzg2OGFhNjI0YzIiLCJpYXQiOjE3MTg2MzQxNTQsImV4cCI6MTcxODYzNTk1NH0.bTN_MSAveXON_HMz2tStrc0MGCHjoG4f3I2WhIODWLaPc_rdJbFJWxDU51WLw_Kp64MR1yyp9FITftEtzP_Mjg",
         "accessTokenExpTime": "2099-12-31 23:59:59",
         "refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0YmRhMzhlZi05NmMzLTRlMjYtODk2YS1hYzg2OGFhNjI0YzIiLCJpYXQiOjE3MTg2MzQxNTQsImV4cCI6MTcxODg5MzM1NH0.t0BO-AzTpCHLwDuvC-QHtWVgo7Fq0KTJPOmG_xXKeGzNex36M3rJfwUZmhXI6ySVBBsb2rPAqN3mbsmsFtGTnA",
         "refreshTokenExpTime": "2099-12-31 23:59:59",
-        "legacy_trcode": "mock-DM0001",
         "legacy_message": {
             "header": {
                 "error_code": "",
-                "error_text": "로그인 에러 메시지 (DM000100501)",
+                "error_text": "",
                 "info_text": "",
                 "login_session_id": "",
                 "message_version": "",
@@ -39,11 +38,9 @@
                 "trcode": "mock-DM0001"
             },
             "body": {
-                "userSeq": "MU0000000129",
-                "userId": "mcnc",
-                "userName": "테스터",
-                "stopYn": "Y"
+                "userName": "테스트 사용자"
             }
-        }
+        },
+        "legacy_trcode": "mock-DM0001"
     }
 }

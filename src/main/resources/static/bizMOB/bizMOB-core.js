@@ -1,42 +1,41 @@
 /**
  * 01.클래스 설명 : bizMOBCore 최상위 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : bizMOBCore 최상위 클래스
  *
  * @author 김승현
  * @version 1.0
  *
  */
-var bizMOBCore = {};
+var bizMOBCore = {}; // NameSpace 정의
 
-bizMOBCore.name = 'bizMOBCore';
-bizMOBCore.version = '4.0';
-// 커맨드 작업을 수행하고 있는지여부 check
-bizMOBCore.readystatus = false;
+bizMOBCore.name = 'bizMOBCore'; // NameSpace 명
+bizMOBCore.version = '4.0'; // bizMOBCore 버전
+bizMOBCore.readystatus = false; // bizMOB App이 initailize 작업이 완료된 후 ready event가 수행 되었는지 여부
 bizMOBCore.loglevel = '1248';  //Log(1)Debug(2)Warn(4)Error(8)
 
 /**
  *
- * 01.클래스 설명 : Native 파트와 통신시 Async 로 호출받은 Callback 함수 관리 클래스
- * 02.제품구분 : bizMOB Xross
+ * 01.클래스 설명 : bizMOB App Plugin 호출시 Async 로 호출받을 Callback 함수 관리 클래스
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : Callback 함수 관리 클래스
  *
  * @author 김승현
  * @version 1.0
  *
  */
-bizMOBCore.CallbackManager = new Object();
+bizMOBCore.CallbackManager = new Object(); // Callback Manager Class정의
 
-bizMOBCore.CallbackManager.servicename = 'CallbackManager';
+bizMOBCore.CallbackManager.servicename = 'CallbackManager'; // log 기록을 위한 클래스명 선언
 
-bizMOBCore.CallbackManager.index = 0;
+bizMOBCore.CallbackManager.index = 0; // 다중 PlugIn을 호출시 Callback Manager에서 callback함수를 저장하기 위해 저장스토리지 키를 유니크하게 만들어줄 index값 property 선언
 
-bizMOBCore.CallbackManager.storage = {};
+bizMOBCore.CallbackManager.storage = {};// 다중 PlugIn을 호출시 Callback Manager에서 일회성 callback함수를 저장하기 위해 저장 스토리지 객체 선언
 
-bizMOBCore.CallbackManager.listener = {};
+bizMOBCore.CallbackManager.listener = {}; // 다중 PlugIn을 호출시 Callback Manager에서 고정 callback함수를 저장하기 위해 저장 스토리지 객체 선언
 
 /**
- * Callback 함수 저장
+ * Callback 함수 저장 메소드
  *
  * @param Function fCallback	저장 할 callback함수.
  * @param String sType	저장할 타입(stg : 1회성, lsn : 반복성 ).
@@ -46,19 +45,21 @@ bizMOBCore.CallbackManager.listener = {};
  */
 bizMOBCore.CallbackManager.save = function(fCallback, sType, sName){
 
-    var action = 'save';
-    var callbackId = '';
+    var action = 'save'; // log기록을 위해 메소드명 정의
+    var callbackId = ''; // CallbackManager에 저장할 콜백 함수명 정의 변수
 
-    if(!fCallback){
+    // Xross API중 Callback이 옵션일경우 callback 미 지정시 처리
+    if(!fCallback){ 
+       
         bizMOBCore.Module.logger(this.servicename, action ,'L', 'Callback function is not defined.');
-        // 없으면 가상으로 echo
-        fCallback =  bizMOBCore.Module.echo;
+        // bizMOB App에서 Callback 함수 호출시 스크립트 에러를 방지하기 위해 Core모듈에 정의된 echo메소드를 이용하여 callback함수로 리턴되는 Response값을 로깅한다.
+        fCallback = bizMOBCore.Module.echo;
     }
 
-    // listener, custom: 1회성X --> listener에 저장
-    // callback: 1회성 --> storage에 저장
+    // Callback 함수 특성을 구분하여 스토리지를 분리하여 저장한다. 
     switch(sType){
         case 'listener' :
+            // 반복성 고정 callback 을 사용시에 sType을 listener로 정의하여 CallbackManager.listener스토리지에 저장된다. 
             callbackId = 'lsn'+this.index++;
 
             // listener에 callbackID랑 callback함수 저장
@@ -66,17 +67,18 @@ bizMOBCore.CallbackManager.save = function(fCallback, sType, sName){
             bizMOBCore.Module.logger(this.servicename, action, 'L', ' Callback listener saved the function at '+callbackId+' area.');
             break;
         case 'custom' :
+            // 개발자가 callback함수를 특정이름으로 사용하고 싶을때, index로 인해 임의의 callback함수명을 받고 싶지 않을때 sName을 파라미터로 전달하고 해당 값으로 callbackID를 지정 하여 callback함수명을 저장한다.
             if (sName) {
                 callbackId = 'cst_'+sName;
             } else {
                 callbackId = 'cst_'+this.index++;
             }
 
-            // listener에 callbackID(cst_ + alias) 랑 callback함수 저장
             this.listener[callbackId] = fCallback;
             bizMOBCore.Module.logger(this.servicename, action, 'L', ' Callback listener saved the function at '+callbackId+' area.');
             break;
         default :
+            // callback 타입이 별도 지정 된값이 없으면 1회성 callback으로 CallbackManager.storage에 저장
             callbackId = 'stg'+this.index++;
 
             // storage에 callbackID랑 callback함수 저장
@@ -85,56 +87,57 @@ bizMOBCore.CallbackManager.save = function(fCallback, sType, sName){
             break;
     }
 
-    // 네이티브에 callbackId 전달하기 위해
     return callbackId;
 
 };
 
 /**
- * Callback 함수 호출
+ * bizMOB App Plugin에서 결과값 Return을 위해 호출할 고정 Callback 함수 처리 메소드
  *
- * @param Object oCallback	콜백 함수 정보 객체.
- * @param Object oResdata	콜백 함수로 전달될 데이타.
+ * @param Object oCallback Xross에서 실행할 콜백 데이타.
+ * @param Object oResdata 호출했던 App PlugIn 처리 결과 데이타.
  *
- * @return
+ * @return null
  */
 bizMOBCore.CallbackManager.responser = function(oCallback, oResdata, oServiceInfo){
-    // console.log("oCallback"+stringify(oCallback));
-    // console.log("oResdata"+stringify(oResdata));
-    // console.log("oServiceInfo"+stringify(oServiceInfo));
 
-    // 네이티브가 callback 내려줄 때
-    bizMOBCore.Module.logger(this.servicename, 'responser', 'L',  'CallbackManager recieve response from native : ' );
+    // bizMOB App plugin으로 부터 결과가 callback으로 호출되었음을 로깅
+    bizMOBCore.Module.logger(this.servicename, 'responser', 'L',  'CallbackManager recieve response from bizMOB App : ' );
 
-    // 네이티브에서 오류나면 "exception"으로 replace
+    // bizMOB App plugin으로 부터 결과가 예외 오류가 발생했는지 확인
     if(oCallback.callback == 'exception'){
         bizMOBCore.Module.logger(this.servicename, 'responser', 'E',  'Recieve Message is ' + JSON.stringify(oResdata) );
         return;
     }
 
+    // CallbackManager에 저장된 스토리지 위치를 찾기 위해 콜백정보 데이터에서 callbackID prefix값을 비교하여 스토리지를 찾은 후 해당 callbackID로 콜백함수를 실행.
     if(oCallback.callback.indexOf('stg') == 0){
 
         bizMOBCore.Module.logger(this.servicename, 'responser', 'D', oCallback.callback + ' call from the storage : ' );
+        // 스토리지내 콜백함수를 실행
         this.storage[oCallback.callback](oResdata.message, oServiceInfo); // 네이티브에서 온 message와 함께 전달
-        delete this.storage[oCallback.callback]; // 1회성
+        // 1회성 콜백함수는 호출 후 스토리지에서 삭제
+        delete this.storage[oCallback.callback]; 
         bizMOBCore.Module.logger(this.servicename, 'responser', 'I', oCallback.callback+' function called and removed.');
 
     }else if(oCallback.callback.indexOf('lsn') == 0 || oCallback.callback.indexOf('cst') == 0){
-
+        // 스토리지내 콜백함수를 실행
         bizMOBCore.Module.logger(this.servicename, 'responser', 'D', oCallback.callback + ' call from the listener : ' );
         this.listener[oCallback.callback](oResdata.message, oServiceInfo);
 
     }else{
-
-        // Device와 같이, script만 가지고 실행하는 경우
+        // bizMOB App PlugIn 호출이 아닌 경우의 콜백 함수.
+        
         bizMOBCore.Module.logger(this.servicename, 'responser', 'D', oCallback.callback + ' call from the page : ' );
 
         var tempcall;
 
         try{
+            // bizMOB App PlugIn 호출이 아닌 xross API호출시 직접 콜백 함수를 실행.
             tempcall = eval(oCallback.callback);
             tempcall.call(undefined, oResdata.message, oServiceInfo);
         }catch(e){
+            // 직접 콜백 함수 실행시 오류가 발생하면 에러 메세지 처리
             if(tempcall == undefined ){
                 bizMOBCore.Module.logger(this.servicename, 'responser', 'E', 'Callback does not exist. : ' + JSON.stringify(oCallback.callback));
 
@@ -150,26 +153,26 @@ bizMOBCore.CallbackManager.responser = function(oCallback, oResdata, oServiceInf
 
 /**
  *
- * 01.클래스 설명 : bizMOBCore에서 사용할 공통 기능 클래스
- * 02.제품구분 : bizMOB Xross
+ * 01.클래스 설명 : bizMOBCore클래스 App PlugIn 기능 요청을 위한 공통 클래스
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : Callback 함수 관리 클래스
  *
  * @author 김승현
  * @version 1.0
  *
  */
-bizMOBCore.Module = new Object();
+bizMOBCore.Module = new Object(); //Module 클래스 정의
 
-bizMOBCore.Module.servicename = 'AppModule';
-bizMOBCore.Module.config = {};
+bizMOBCore.Module.servicename = 'AppModule'; //Module 클래스 이름 정의
+bizMOBCore.Module.config = {}; //Module 클래스 설정 정보 정의
 
-//requester 상태 check하기 위한 cmdwatcher
-bizMOBCore.Module.cmdwatcher = false;
-
-bizMOBCore.Module.cmdPosition = 0;
+/** Xross 3.x 에서 사용하던 url 호출방식에서 JSBridge방식으로 변경함에 따라 삭제
+* bizMOBCore.Module.cmdwatcher = false; //requester가 요청중인지 상태 check하기 위한변수
+* bizMOBCore.Module.cmdPosition = 0;  //requester내에서 다음 요청을 처리하기 위한 index값
+*/
 
 /**
- * 파라미터 체크
+ * App PlugIn 호출전 파라미터 변수타입을 체크하기 위한 메소드
  *
  * @param Object oParams	확인될 파라미터 정보 객체.
  * @param Array aRequired	필수 파라미터 목록.
@@ -271,12 +274,14 @@ bizMOBCore.Module.checkParam = function(oParams, aRequired){
 };
 
 /**
- * Command Queue에서 저장된 커맨드 순서대로 Native에 요청
+ * bizMOB 3.x 에서 사용하던 App PlugIn 호출 메소드. Deprecated
+ * Command Queue에 저장된 커맨드 순서대로 bizMOB App에 요청
  *
  * @param
  *
  * @return
  */
+/*
 bizMOBCore.Module.requester = function() {
     // 실제로 네이티브에 요청하는 부분
     var action = 'requester';
@@ -286,21 +291,23 @@ bizMOBCore.Module.requester = function() {
         document.location.href=this.cmdQueue[this.cmdPosition];
         this.cmdQueue[this.cmdPosition] = null;
         this.cmdPosition++;
+        // this.cmdwatcher = true;
         setTimeout('bizMOBCore.Module.requester();', 200);
     }else{
         console.log('COMMAND Stopped!!');
-        this.cmdwatcher = false;
+        // this.cmdwatcher = false;
     }
 
 };
+*/
 
 /**
- * 각 서비스 별로 요청된 Command를 받아 MCNC Protocol 규격으로 Commnad Queue에 저장
+ * bizMOB APP api호출시 요청된 Data를 JSBridge 를 통해 App에 요청하는 메소드
  *
- * @param Object oMessage	Native에 전달될 파라미터 정보 객체.
+ * @param Object oMessage	bizMOB App PlugIn에 전달될 파라미터 정보 객체.
  * @param String sServiceName	요청한 커맨드의 서비스명 정보.
  * @param String sAction	요청한 커맨드의 서비스내 기능 정보.
- * @param Object oServiceInfo	Native에 전달하고 Core 로직을 위한 파라미터 정보 객체.
+ * @param Object oServiceInfo	bizMOB App에 전달하고 Core 로직을 위한 파라미터 정보 객체.
  *
  * @return
  */
@@ -398,7 +405,7 @@ bizMOBCore.Module.parsejson = function(vValue) {
  * @return Object splitPathType FilePath 정보를 분할한 Data Object.
  */
 bizMOBCore.Module.pathParser = function(sPath) {
-    // native 인터페이스 parsing을 위해 경로 분리
+    // bizMOB App 인터페이스 parsing을 위해 경로 분리
     var splitPathType = {};
     var regExp = new RegExp('{(.*?)}/(.*)','g');
     var result = regExp.exec(sPath);
@@ -417,9 +424,9 @@ bizMOBCore.Module.pathParser = function(sPath) {
 };
 
 /**
- *Native 요청시 정의된 Callback함수가 없을경우 Default로 지정될 함수
+ *bizMOB App 요청시 정의된 Callback함수가 없을경우 Default로 지정될 함수
  *
- * @param Object oReturnValue	Native로 부터 전달된 데이터 값.
+ * @param Object oReturnValue	bizMOB App로 부터 전달된 데이터 값.
  *
  * @return
  */
@@ -543,7 +550,7 @@ bizMOBCore.Module.init = function(oRequired, oOptions){
 
 /**
  * 01.클래스 설명 : bizMOB Window 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 :  bizMOB Client에서 생성하는 Window 객체
  *
  * @author 김승현
@@ -685,7 +692,7 @@ bizMOBCore.Window.openCodeReader = function() {
 /**
  *
  * 01.클래스 설명 : Properties 저장 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : 영구 데이터 저장소
  *
  * @author 김승현
@@ -714,7 +721,7 @@ bizMOBCore.Properties.set = function() {
         param:{data:[]}
     };
 
-    // native한테 주기 전에 데이터 정리하는 용도의 array
+    // bizMOB App한테 주기 전에 데이터 정리하는 용도의 array
     var properties = [];
 
     if(arguments[0]._aList)
@@ -749,7 +756,7 @@ bizMOBCore.Properties.get = function() {
     var action = 'get';
     var key = arguments[0]._sKey;
 
-    // native에 요청 없이 FStorage에서 get
+    // bizMOB App에 요청 없이 FStorage에서 get
     if(window.bizMOB.FStorage[key]){
         return bizMOBCore.Module.parsejson( window.bizMOB.FStorage[key]);
     }else{
@@ -770,7 +777,7 @@ bizMOBCore.Properties.remove = function() {
     var action = 'remove';
     var key = arguments[0]._sKey;
 
-    // Native에서 지우기
+    // bizMOB App에서 지우기
     var tr = {
         id:'REMOVE_FSTORAGE',
         param:{data:[key]}
@@ -788,7 +795,7 @@ bizMOBCore.Properties.remove = function() {
 /**
  *
  * 01.클래스 설명 : System 기능 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : OS 기반 기본 기능
  * 04.관련 API/화면/서비스 : bizMOBCore.Module.checkParam,bizMOBCore.System.callBrowser, bizMOBCore.System.callCamera, bizMOBCore.System.callGallery, bizMOBCore.System.callMap, bizMOBCore.System.callSMS, bizMOBCore.System.callTEL, bizMOBCore.System.getGPS
  *
@@ -1007,7 +1014,7 @@ bizMOBCore.System.callCamera = function()
 /**
  *
  * 01.클래스 설명 : App 컨트롤 관련 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : App 컨트롤 관련 기능
  *
  * @author 김승현
@@ -1174,7 +1181,7 @@ bizMOBCore.App.hideSplash = function(){
 /**
  *
  * 01.클래스 설명 : Web Storage 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : 휘발성 데이터 저장소
  *
  * @author 김승현
@@ -1258,7 +1265,7 @@ bizMOBCore.Storage.remove = function() {
 /**
  *
  * 01.클래스 설명 : Network 통신 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : bizMOB Server와 통신
  *
  * @author 김승현
@@ -1428,8 +1435,8 @@ bizMOBCore.Network.requestLogin = function(arg) {
  * @returns {Number} returns.response_code 응답 코드 (200 <= .. <= 300)
  * @returns {String} returns.response_data 응답 데이터
  * @returns {Object} returns.error 응답 실패시 에러 객체 (실패시에만 존재)
- * @returns {Number} returns.error.code Native 응답 실패코드 (ERR000)
- * @returns {String} returns.error.message Native에서 주는 응답 실패 메시지
+ * @returns {Number} returns.error.code bizMOB App 응답 실패코드 (ERR000)
+ * @returns {String} returns.error.message bizMOB App에서 주는 응답 실패 메시지
  * @returns {Number} returns.error.response_code Server 응답 실패코드 (401, 402, ...) -- 없을 수도 있음
  * @returns {String} returns.error.response_data Server 응답 실패 데이터 -- 없을 수도 있음
  */
@@ -1464,7 +1471,7 @@ bizMOBCore.Network.requestHttp = function(arg) {
 /**
  *
  * 01.클래스 설명 : Event 관리 기능 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : bizMOB Event  관리 기능 클래스
  *
  * @author 김승현
@@ -1548,7 +1555,7 @@ bizMOBCore.EventManager.init = function() {
         }
     }
     if (bizMOBCore.DeviceManager.isAndroid()) {
-    // native에 backbutton에 대한 event 추가 요청
+    // bizMOB App에 backbutton에 대한 event 추가 요청
         bizMOBCore.EventManager.requester({ 'eventname' : 'backbutton' });
     }
 
@@ -1556,7 +1563,7 @@ bizMOBCore.EventManager.init = function() {
 };
 
 /**
- * Native에서 관장하는 Event  등록 요청 기능
+ * bizMOB App에서 관장하는 Event  등록 요청 기능
  *
  * @param Object oRequired 요청 이벤트 Data객체
  * @param Object oOptions 요청 이벤트 등록 요청시 전달할 Data객체
@@ -1583,7 +1590,7 @@ bizMOBCore.EventManager.requester = function(oRequired, oOptions) {
 
             tr.param = params;
 
-            // native gateway에 요청
+            // bizMOB App gateway에 요청
             bizMOBCore.Module.gateway(tr, this.servicename , action );
             bizMOBCore.Module.logger(this.servicename, action ,'L', 'EventManager request add event.');
 
@@ -1593,7 +1600,7 @@ bizMOBCore.EventManager.requester = function(oRequired, oOptions) {
 };
 
 /**
- * Native에서 Event 발생시 Web으로 전달되는 기능
+ * bizMOB App에서 Event 발생시 Web으로 전달되는 기능
  *
  * @param Object oRequired 발생한 이벤트 Data객체
  * @param Object oOptions 이벤트에 전달될 메세지 Data객체
@@ -1673,7 +1680,7 @@ bizMOBCore.EventManager.set = function() {
     var fCallback = arguments[0]._fCallback;
 
     if (bizMOBCore.EventManager.storage[sEvent]) {
-    // Native에서 이미 onReady를 발생 시킨 후에 ready를 등록시 바로 실행
+    // bizMOB App에서 이미 onReady를 발생 시킨 후에 ready를 등록시 바로 실행
         if (sEvent === 'ready' && bizMOBCore.readystatus) {
             bizMOBCore.Module.logger(this.servicename, 'setEvent', 'L', 'Event execute. - ' + sEvent);
             fCallback();
@@ -1705,7 +1712,7 @@ bizMOBCore.EventManager.clear = function() {
 /**
  *
  * 01.클래스 설명 : 단말기 정보 관리 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : 단말기 정보 관리
  *
  * @author 김승현
@@ -1827,9 +1834,9 @@ bizMOBCore.DeviceManager.isPhone = function() {
 
 /**
  *
- * 01.클래스 설명 : Native API 실행 기능 클래스
- * 02.제품구분 : bizMOB Xross
- * 03.기능(콤퍼넌트) 명 : Native API 실행 기능
+ * 01.클래스 설명 : bizMOB App API 실행 기능 클래스
+ * 02.제품구분 : bizMOB Core
+ * 03.기능(콤퍼넌트) 명 : bizMOB App API 실행 기능
  *
  * @author 김승현
  * @version 1.0
@@ -1866,7 +1873,7 @@ bizMOBCore.ExtendsManager.executer = function(){
 /**
  *
  * 01.클래스 설명 : 단말기 주소록 기능 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : 단말기 주소록 관리 기능
  *
  * @author 김승현
@@ -1911,7 +1918,7 @@ bizMOBCore.Contacts.get = function(options) {
 /**
  *
  * 01.클래스 설명 : File 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : File 컨트롤 클래스
  *
  * @author 김승현
@@ -2240,13 +2247,13 @@ bizMOBCore.File.download = function() {
     switch(arguments[0]._sProgressBar)
     {
     // provider: progressbar를 어디서 그릴지 결정
-    // native-> native에서 그림
+    // bizMOB App-> bizMOB App에서 그림
         case 'full' :
-            progressbar.provider = 'native';
+            progressbar.provider = 'bizMOB App';
             progressbar.type = 'full_list';
             break;
         case 'each' :
-            progressbar.provider = 'native';
+            progressbar.provider = 'bizMOB App';
             progressbar.type = 'each_list';
             break;
         case 'off' :
@@ -2254,7 +2261,7 @@ bizMOBCore.File.download = function() {
             progressbar.type = '';
             break;
         default :
-            progressbar.provider = 'native';
+            progressbar.provider = 'bizMOB App';
             progressbar.type = 'default';
             // default: full_list
             break;
@@ -2313,7 +2320,7 @@ bizMOBCore.File.getInfo = function()    {
     });
     var userCallback = bizMOBCore.CallbackManager.save(arguments[0]._fCallback);
     // JSON은 순서 보장이 안되니까 순서 맞춰서 usercallback대신 callback을 만들고
-    // native에 callback보내고 callback안에서 usercallback부르도록
+    // bizMOB App에 callback보내고 callback안에서 usercallback부르도록
     var callback = bizMOBCore.CallbackManager.save(function(res)   {
         bizMOBCore.Module.logger(serviceName, action ,'D', res);
 
@@ -2435,7 +2442,7 @@ bizMOBCore.File.rotateImage = function()    {
 /**
  *
  * 01.클래스 설명 : Push 기능 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : bizPush Server Open API연동 본 기능
  * 04.관련 API/화면/서비스 : bizMOBCore.Module.checkparam,bizMOBCore.Push.getAlarm,bizMOBCore.Push.getMessageList,bizMOBCore.Push.getPushKey,bizMOBCore.Push.getUnreadCount,bizMOBCore.Push.readMessage,bizMOBCore.Push.registerToServer,bizMOBCore.Push.sendMessage,bizMOBCore.Push.setAlarm,bizMOBCore.Push.setBadgeCount
  *
@@ -2556,7 +2563,7 @@ bizMOBCore.PushManager.checkValidPushUserId = function(userId)	{
  * @return
  */
 bizMOBCore.PushManager.setStoredPushKey = function(pushKey)	{
-    // native에 push_key setting용도
+    // bizMOB App에 push_key setting용도
     var storedPushKey = bizMOBCore.Properties.get({
         '_sKey' : 'STORED_PUSHKEY'
     });
@@ -2579,7 +2586,7 @@ bizMOBCore.PushManager.setStoredPushKey = function(pushKey)	{
  * @return
  */
 bizMOBCore.PushManager.setStoredPushUserId = function(userId)	{
-    // native에 pushUserID 저장 용도
+    // bizMOB App에 pushUserID 저장 용도
     var storedPushUserId = bizMOBCore.Properties.get({
         '_sKey' : 'STORED_PUSH_USERID'
     });
@@ -2639,7 +2646,7 @@ bizMOBCore.PushManager.getPushKey = function()	{
 /**
  * 푸시키 정보 결과처리 Callback 함수
  *
- * @param Object res	Native에서 전달받은 푸시키 정보 Data Object.
+ * @param Object res	bizMOB App에서 전달받은 푸시키 정보 Data Object.
  *  *
  * @return
  */
@@ -2724,7 +2731,7 @@ bizMOBCore.PushManager.registerToServer = function(arg)	{
 /**
  * 푸시서버에 사용자 정보 등록 결과 처리 함
  *
- * @param Object res		Native에서 전달받은 등록 처리 결과 정보 Data
+ * @param Object res		bizMOB App에서 전달받은 등록 처리 결과 정보 Data
  * @param String_sUserId			등록한 사용자 아이디.
  *
  * @return
@@ -3026,7 +3033,7 @@ bizMOBCore.PushManager.readReceiptMessage = function()	{
 /**
  *
  * 01.클래스 설명 : Database 기능 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : 컨테이너 SQLite DB 사용 기능
  *
  * @author 김승현
@@ -3232,7 +3239,7 @@ bizMOBCore.Database.executeBatchSql = function()	{
 /**
  *
  * 01.클래스 설명 : Http 기능 클래스
- * 02.제품구분 : bizMOB Xross
+ * 02.제품구분 : bizMOB Core
  * 03.기능(콤퍼넌트) 명 : bizMOB Http Client 관련 기능
  *
  * @author 김승현

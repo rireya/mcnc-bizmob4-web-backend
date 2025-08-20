@@ -16,7 +16,7 @@ bizMOBWebCore.Module.serviceName = 'Module';
 bizMOBWebCore.Module.config = {};
 
 // bizMOB Web Logger
-bizMOBWebCore.Module.logger = function(sService, sAction, sLogType, sMessage) {
+bizMOBWebCore.Module.logger = function (sService, sAction, sLogType, sMessage) {
     // 릴리즈 환경에서는 로그 출력 안함.
     if (bizMOBWebCore.App.config._bIsRelease) return;
 
@@ -50,20 +50,20 @@ bizMOBWebCore.Module.logger = function(sService, sAction, sLogType, sMessage) {
     var log = msg.replace(/\{/gi, '\n{').replace(/\}/gi, '}\n').replace(/\\"/gi, '');
 
     // 로그 출력
-    switch(sLogType){
-        case 'I' :
+    switch (sLogType) {
+        case 'I':
             console.info('%c bizMOB INFO %c ' + '%c' + trace + '%c ' + log, infoStyle, '', infoBracketStyle, '');
             break;
-        case 'L' :
+        case 'L':
             console.info('%c bizMOB LOG %c ' + '%c' + trace + '%c ' + log, logStyle, '', logBracketStyle, '');
             break;
-        case 'D' :
+        case 'D':
             console.info('%c bizMOB DEBUG %c ' + '%c' + trace + '%c ' + log, debugStyle, '', debugBracketStyle, '');
             break;
-        case 'W' :
+        case 'W':
             console.info('%c bizMOB WARN %c ' + '%c' + trace + '%c ' + log, warnStyle, '', warnBracketStyle, '');
             break;
-        case 'E' :
+        case 'E':
             console.info('%c bizMOB ERROR %c ' + '%c' + trace + '%c ' + log, errorStyle, '', errorBracketStyle, '');
             break;
     }
@@ -93,7 +93,7 @@ bizMOBWebCore.Module.checkParam = function (oParams, aRequired) {
     var param = oParams || {}; // 전달된 파라미터 객체
     var paramKeys = Object.keys(param); // 전달된 파라미터 객체의 속성 목록
     var required = aRequired || []; // 필수 파라미터 목록
-    var missingKeys = required.filter(function(key) { // 없는 필수 파라미터 목록
+    var missingKeys = required.filter(function (key) { // 없는 필수 파라미터 목록
         return paramKeys.indexOf(key) === -1;
     });
 
@@ -119,7 +119,7 @@ bizMOBWebCore.Module.checkParam = function (oParams, aRequired) {
     }
     // 정상 파라미터
     else {
-    // 파라미터 객체 속성 순회
+        // 파라미터 객체 속성 순회
         for (var key in param) {
             if (Object.hasOwnProperty.call(param, key)) {
                 var type = key.substring(1, 2); // key값 앞에 _s, _n...에서 s, n...을 추출
@@ -180,11 +180,11 @@ bizMOBWebCore.EventManager.config = {};
 
 bizMOBWebCore.EventManager.storage = {
     // Web init
-    'ready' : true,
+    'ready': true,
 };
 
 // 이벤트 셋업 (웹에서는 EventManager.storage에 있는 이벤트를 set시 바로 실행)
-bizMOBWebCore.EventManager.set = function() {
+bizMOBWebCore.EventManager.set = function () {
     var sEvent = arguments[0]._sEvent;
     var fCallback = arguments[0]._fCallback;
 
@@ -193,7 +193,7 @@ bizMOBWebCore.EventManager.set = function() {
         fCallback({ type: 'web' });
     }
     else {
-        bizMOBWebCore.Module.logger(this.servicename, 'setEvent','E', 'This event is not supported on the web. - ' + sEvent);
+        bizMOBWebCore.Module.logger(this.servicename, 'setEvent', 'E', 'This event is not supported on the web. - ' + sEvent);
     }
 };
 
@@ -235,58 +235,58 @@ bizMOBWebCore.DeviceManager = {};
 bizMOBWebCore.DeviceManager.serviceName = 'DeviceManager';
 
 // 단말기 정보조회
-bizMOBWebCore.DeviceManager.getInfo = function() {
+bizMOBWebCore.DeviceManager.getInfo = function () {
     return arguments[0] && arguments[0]._sKey
         ? window.bizMOB.Device.Info[arguments[0]._sKey]
         : window.bizMOB.Device.Info;
 };
 
 // 단말기 정보조회
-bizMOBWebCore.DeviceManager.setInfo = function() {
+bizMOBWebCore.DeviceManager.setInfo = function () {
     window.bizMOB.Device.Info[arguments[0]._sKey] = arguments[0]._sValue;
 };
 
 // App 판단 여부
-bizMOBWebCore.DeviceManager.isApp = function() {
+bizMOBWebCore.DeviceManager.isApp = function () {
     return !!window.BMCManager || (!!window.webkit && !!window.webkit.messageHandlers && !!window.webkit.messageHandlers.BMCManager);
 };
 
 // Web 판단 여부
-bizMOBWebCore.DeviceManager.isWeb = function() {
+bizMOBWebCore.DeviceManager.isWeb = function () {
     return !bizMOBWebCore.DeviceManager.isApp();
 };
 
 // Mobile 여부
-bizMOBWebCore.DeviceManager.isMobile = function() {
+bizMOBWebCore.DeviceManager.isMobile = function () {
     var UA = navigator.userAgent || navigator.vendor || window.opera;
     return UA && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(UA);
 };
 
 // PC 여부
-bizMOBWebCore.DeviceManager.isPC = function() {
+bizMOBWebCore.DeviceManager.isPC = function () {
     return !bizMOBWebCore.DeviceManager.isMobile();
 };
 
 // Android 여부
-bizMOBWebCore.DeviceManager.isAndroid = function() {
+bizMOBWebCore.DeviceManager.isAndroid = function () {
     var UA = navigator.userAgent || navigator.vendor || window.opera;
     return /android/i.test(UA);
 };
 
 // IOS 여부
-bizMOBWebCore.DeviceManager.isIOS = function() {
+bizMOBWebCore.DeviceManager.isIOS = function () {
     var UA = navigator.userAgent || navigator.vendor || window.opera;
     return /iPad|iPhone|iPod/.test(UA) && !window.MSStream;
 };
 
 // Tablet 여부
-bizMOBWebCore.DeviceManager.isTablet = function() {
+bizMOBWebCore.DeviceManager.isTablet = function () {
     var UA = navigator.userAgent || navigator.vendor || window.opera;
     return /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(UA.toLowerCase());
 };
 
 //Phone 여부
-bizMOBWebCore.DeviceManager.isPhone = function() {
+bizMOBWebCore.DeviceManager.isPhone = function () {
     return bizMOBWebCore.DeviceManager.isMobile() && !bizMOBWebCore.DeviceManager.isTablet();
 };
 
@@ -314,7 +314,7 @@ bizMOBWebCore.Network.config = {
 };
 
 // locale 변경
-bizMOBWebCore.Network.changeLocale = function(arg) {
+bizMOBWebCore.Network.changeLocale = function (arg) {
     // 언어 코드 (ko, ko-KR, en, en-US, ...)
     var localeCode = arg._sLocaleCd;
     // full locale 값 조회
@@ -326,14 +326,14 @@ bizMOBWebCore.Network.changeLocale = function(arg) {
 };
 
 // 메시지 암호화
-bizMOBWebCore.Network.encryption = function() {
+bizMOBWebCore.Network.encryption = function () {
     var CryptoJS = window.CryptoJS;
     var arg = arguments[0] || {};
     var message = arg._sMessage || '';
 
     try {
         var key = atob(bizMOBWebCore.Network.config._sCrySymKey);
-        var iv = bizMOBWebCore.Network.config._sCrySymKey.substring(0,16);
+        var iv = bizMOBWebCore.Network.config._sCrySymKey.substring(0, 16);
         var encrypt = CryptoJS.AES.encrypt(message, CryptoJS.enc.Utf8.parse(key), {
             iv: CryptoJS.enc.Utf8.parse(iv),
             mode: CryptoJS.mode.CBC,
@@ -350,14 +350,14 @@ bizMOBWebCore.Network.encryption = function() {
 };
 
 // 메시지 복호화
-bizMOBWebCore.Network.decryption = function() {
+bizMOBWebCore.Network.decryption = function () {
     var CryptoJS = window.CryptoJS;
     var arg = arguments[0] || {};
     var message = arg._sMessage || '';
 
     try {
         var key = atob(bizMOBWebCore.Network.config._sCrySymKey);
-        var iv = bizMOBWebCore.Network.config._sCrySymKey.substring(0,16);
+        var iv = bizMOBWebCore.Network.config._sCrySymKey.substring(0, 16);
         var decipher = CryptoJS.AES.decrypt(message, CryptoJS.enc.Utf8.parse(key), {
             iv: CryptoJS.enc.Utf8.parse(iv),
             mode: CryptoJS.mode.CBC,
@@ -384,7 +384,7 @@ bizMOBWebCore.Network.decryption = function() {
  *
  * @return
  */
-bizMOBWebCore.Network.requestTr = function(arg) {
+bizMOBWebCore.Network.requestTr = function (arg) {
     /** Parameter 셋팅 */
     var timeout = (arg._nTimeout ? arg._nTimeout : 60) * 1000; // native api와 시간 단위를 맞춤
     var message = {
@@ -402,7 +402,6 @@ bizMOBWebCore.Network.requestTr = function(arg) {
     var body = {
         message: JSON.stringify(message)
     };
-    var fileList = arg._aFileList || [];
 
     /** bizMOB Auth Token */
     if (bizMOBWebCore.Network.config._bIsCrypto && !!bizMOBWebCore.Network.config._sCryAuthToken) {
@@ -427,16 +426,14 @@ bizMOBWebCore.Network.requestTr = function(arg) {
 
     // fetch 옵션 생성
     var option = bizMOBWebCore.Http.bizmobOption({
-        _sBodyType: fileList.length > 0 ? 'form' : 'json',
         _sTrcode: arg._sTrcode,
         _oHttpHeader: arg._oHttpHeader,
         _oBody: body,
-        _aFileList: fileList,
     });
 
     // fetch 호출
     bizMOBWebCore.Http.fetch(url, option, timeout)
-        .then(function(res) {
+        .then(function (res) {
             var message = res.data;
 
             // 복호화 필요시
@@ -453,7 +450,7 @@ bizMOBWebCore.Network.requestTr = function(arg) {
             bizMOBWebCore.Module.logger(bizMOBWebCore.Network.serviceName, 'requestTr', 'L', 'Request trcode success: ' + arg._sTrcode);
             arg._fCallback && arg._fCallback(message);
         })
-        .catch(function() {
+        .catch(function () {
             bizMOBWebCore.Module.logger(bizMOBWebCore.Network.serviceName, 'requestTr', 'E', 'Request trcode failed: ' + arg._sTrcode);
             arg._fCallback && arg._fCallback({
                 header: Object.assign({}, message.header || {}, {
@@ -475,7 +472,7 @@ bizMOBWebCore.Network.requestTr = function(arg) {
  * @param {number} _nTimeout (default: 60) 서버에 통신 요청시 timeout 시간 (sec)
  * @param {function} _fCallback 서버와 통신 후 실행될 callback 함수
  */
-bizMOBWebCore.Network.requestLogin = function(arg) {
+bizMOBWebCore.Network.requestLogin = function (arg) {
     /** Parameter 셋팅 */
     var timeout = (arg._nTimeout ? arg._nTimeout : 60) * 1000; // native api와 시간 단위를 맞춤
     var legacy_message = {
@@ -548,7 +545,7 @@ bizMOBWebCore.Network.requestLogin = function(arg) {
 
     /** Http.fetch 호출 */
     bizMOBWebCore.Http.fetch(url, option, timeout)
-        .then(function(res) {
+        .then(function (res) {
             var message = res.data;
 
             // 복호화 필요시
@@ -572,7 +569,7 @@ bizMOBWebCore.Network.requestLogin = function(arg) {
                 })
                 : message);
         })
-        .catch(function() {
+        .catch(function () {
             bizMOBWebCore.Module.logger(bizMOBWebCore.Network.serviceName, 'requestTr', 'E', 'Request login failed: ' + arg._sTrcode);
             arg._fCallback && arg._fCallback({
                 header: Object.assign({}, message.header || {}, {
@@ -603,7 +600,9 @@ bizMOBWebCore.Network.requestLogin = function(arg) {
  * @returns {Number} returns.error.response_code Server 응답 실패코드 (401, 402, ...) -- 없을 수도 있음
  * @returns {String} returns.error.response_data Server 응답 실패 데이터 -- 없을 수도 있음
  */
-bizMOBWebCore.Network.requestHttp = function(arg) {
+bizMOBWebCore.Network.requestHttp = function (arg) {
+    var action = 'requestHttp';
+
     var url = arg._sUrl;
     var timeout = (arg._nTimeout ? arg._nTimeout : 60) * 1000;
     var option = Object.assign({}, arg._oOption, {
@@ -627,7 +626,7 @@ bizMOBWebCore.Network.requestHttp = function(arg) {
 
     // Http.fetch 요청
     bizMOBWebCore.Http.fetch(url, option, timeout)
-        .then(function(res) {
+        .then(function (res) {
             let responseData = null;
 
             try {
@@ -657,7 +656,7 @@ bizMOBWebCore.Network.requestHttp = function(arg) {
                 });
             }
         })
-        .catch(function(res) {
+        .catch(function (res) {
             arg._fCallback && arg._fCallback({
                 result: false,
                 error: {
@@ -685,7 +684,7 @@ bizMOBWebCore.Properties.config = {};
  * @param {any} arg._vValue Properties value
  * @param {object[]} arg._aList data map list (Ex. [{_sKey: "1", _vValue: "1"}, ...])
  */
-bizMOBWebCore.Properties.set = function(arg) {
+bizMOBWebCore.Properties.set = function (arg) {
     var dataList = [];
 
     if (Object.hasOwnProperty.call(arg, '_aList')) {
@@ -695,7 +694,7 @@ bizMOBWebCore.Properties.set = function(arg) {
         dataList = [arg];
     }
 
-    dataList.forEach(function(data) {
+    dataList.forEach(function (data) {
         var prop = bizMOBWebCore.Properties.prefix + data._sKey;
         var value = data._vValue;
 
@@ -710,7 +709,7 @@ bizMOBWebCore.Properties.set = function(arg) {
  * @param {string} arg._sKey Properties key
  * @returns Properties value
  */
-bizMOBWebCore.Properties.get = function(arg) {
+bizMOBWebCore.Properties.get = function (arg) {
     var prefix = bizMOBWebCore.Properties.prefix;
 
     if (arg && Object.hasOwnProperty.call(arg, '_sKey')) {
@@ -739,7 +738,7 @@ bizMOBWebCore.Properties.get = function(arg) {
  * @param {object} arg
  * @param {string} arg._sKey Properties key
  */
-bizMOBWebCore.Properties.remove = function(arg) {
+bizMOBWebCore.Properties.remove = function (arg) {
     var prop = bizMOBWebCore.Properties.prefix + arg._sKey;
 
     bizMOBWebCore.Module.logger(bizMOBWebCore.Properties.serviceName, 'remove', 'L', 'bizMOB properties remove: ' + arg._sKey);
@@ -757,6 +756,96 @@ bizMOBWebCore.Storage.serviceName = 'Storage';
 bizMOBWebCore.Storage.config = {};
 
 /**
+ * bizMOB Web Storage Set
+ * @param {object} arg
+ * @param {string} arg._sKey Storage key
+ * @param {any} arg._vValue Storage value
+ * @param {object[]} arg._aList data map list (Ex. [{_sKey: "1", _vValue: "1"}, ...])
+ */
+bizMOBWebCore.Storage.set = function (arg) {
+    var dataList = [];
+
+    if (Object.hasOwnProperty.call(arg, '_aList')) {
+        dataList = arg._aList;
+    }
+    else {
+        dataList = [arg];
+    }
+
+    dataList.forEach(function (data) {
+        var prop = bizMOBWebCore.Storage.prefix + data._sKey;
+        var value = typeof data._vValue === 'string' ? data._vValue : JSON.stringify(data._vValue);
+
+        bizMOBWebCore.Module.logger(bizMOBWebCore.Storage.serviceName, 'set', 'L', 'bizMOB storage set: ' + data._sKey);
+        sessionStorage.setItem(prop, value);
+    });
+};
+
+/**
+ * bizMOB Web Storage Get
+ * @param {object} arg
+ * @param {string} arg._sKey Storage key
+ * @returns Storage value
+ */
+bizMOBWebCore.Storage.get = function (arg) {
+    var prefix = bizMOBWebCore.Storage.prefix;
+
+    if (arg && Object.hasOwnProperty.call(arg, '_sKey')) {
+        var prop = prefix + arg._sKey;
+        var value = sessionStorage.getItem(prop);
+
+        if (value === null) {
+            return null;
+        }
+
+        // JSON 파싱 시도
+        try {
+            return JSON.parse(value);
+        } catch (error) {
+            // JSON이 아닌 문자열인 경우 그대로 반환
+            return value;
+        }
+    }
+    else {
+        var storage = sessionStorage;
+        var result = {};
+
+        for (var key in storage) {
+            if (Object.hasOwnProperty.call(storage, key)) {
+                if (key.indexOf(prefix) === 0) {
+                    var storageKey = key.replace(prefix, '');
+                    var storageValue = storage[key];
+
+                    // JSON 파싱 시도
+                    try {
+                        result[storageKey] = JSON.parse(storageValue);
+                    } catch (error) {
+                        // JSON이 아닌 문자열인 경우 그대로 저장
+                        result[storageKey] = storageValue;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+};
+
+/**
+ * bizMOB Web Storage Remove
+ * @param {object} arg
+ * @param {string} arg._sKey Storage key
+ */
+bizMOBWebCore.Storage.remove = function (arg) {
+    var prop = bizMOBWebCore.Storage.prefix + arg._sKey;
+
+    bizMOBWebCore.Module.logger(bizMOBWebCore.Storage.serviceName, 'remove', 'L', 'bizMOB storage remove: ' + arg._sKey);
+
+    sessionStorage.removeItem(prop);
+    return true;
+};
+
+/**
  * Web PushManager Class
  */
 bizMOBWebCore.PushManager = {};
@@ -770,35 +859,35 @@ bizMOBWebCore.System = {};
 bizMOBWebCore.System.serviceName = 'System';
 bizMOBWebCore.System.config = {};
 
-bizMOBWebCore.System.getGPS = function(arg) {
+bizMOBWebCore.System.getGPS = function (arg) {
     if ('geolocation' in navigator) {
-    // Geolocation API 사용 가능
-        navigator.geolocation.getCurrentPosition(function(position) {
+        // Geolocation API 사용 가능
+        navigator.geolocation.getCurrentPosition(function (position) {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
 
             arg._fCallback && arg._fCallback({
-                'result' : true,
-                'longitude' : longitude,
-                'latitude' : latitude,
-                'address' : ''
+                'result': true,
+                'longitude': longitude,
+                'latitude': latitude,
+                'address': ''
             });
-        }, function(error) {
+        }, function (error) {
             console.error('Geolocation error:', error);
             arg._fCallback && arg._fCallback({
-                'result' : false,
-                'longitude' : 0,
-                'latitude' : 0,
-                'address' : ''
+                'result': false,
+                'longitude': 0,
+                'latitude': 0,
+                'address': ''
             });
         });
     } else {
-    // Geolocation API 사용 불가
+        // Geolocation API 사용 불가
         arg._fCallback && arg._fCallback({
-            'result' : false,
-            'longitude' : 0,
-            'latitude' : 0,
-            'address' : ''
+            'result': false,
+            'longitude': 0,
+            'latitude': 0,
+            'address': ''
         });
     }
 };
@@ -821,9 +910,9 @@ bizMOBWebCore.Localization.config = {};
 bizMOBWebCore.Localization.locale = '';
 
 // 언어 코드로 (언어코드)-(국가코드) 형태의 full locale 코드 반환
-bizMOBWebCore.Localization.getFullLocale = function(localeCode) {
+bizMOBWebCore.Localization.getFullLocale = function (localeCode) {
     // 사용자 언어 목록에서 언어 코드(ko, ...)에 대응되는 full locale(ko-KR, ...) 코드
-    var fullLocale = navigator.languages.find(function(lang) {
+    var fullLocale = navigator.languages.find(function (lang) {
         return lang.toLowerCase().startsWith(localeCode.toLowerCase() + '-');
     });
     // 미리 지정한 언어 목록에서 언어 코드에 대응되는 preset locale 코드
@@ -842,17 +931,17 @@ bizMOBWebCore.Localization.getFullLocale = function(localeCode) {
     // 전달받은 언어 코드가 'ko' 형식이고, 프리셋에 있다면 프리셋 언어코드를 전달
     else if (presetLocale) {
         bizMOBWebCore.Module.logger(this.serviceName, 'getFullLocale', 'L', 'Gets the full locale value: (preset) ' + presetLocale);
-        return  presetLocale;
+        return presetLocale;
     }
     // 전달받은 언어 코드가 navigator, 프리셋에 전부 없다면 전달받은 값 그대로 전달 (ko)
     else {
         bizMOBWebCore.Module.logger(this.serviceName, 'getFullLocale', 'L', 'Gets the full locale value: (unknown) ' + presetLocale);
-        return  localeCode;
+        return localeCode;
     }
 };
 
 // 설정된 (언어)-(국가) 코드 조회
-bizMOBWebCore.Localization.getLocale = function(arg) {
+bizMOBWebCore.Localization.getLocale = function (arg) {
     var locale = bizMOBWebCore.Localization.locale; // 설정한 언어 코드
     var defaultLocale = bizMOBWebCore.Localization.getFullLocale(navigator.language); // 기본 언어 코드
 
@@ -867,7 +956,7 @@ bizMOBWebCore.Localization.getLocale = function(arg) {
 };
 
 // 언어코드에 맞는 (언어)-(국가) 코드 저장
-bizMOBWebCore.Localization.setLocale = function(arg) {
+bizMOBWebCore.Localization.setLocale = function (arg) {
     // 언어 코드 (ko, ko-KR, en, en-US, ...)
     var localeCode = arg._sLocaleCd;
     // full locale 값 조회
@@ -887,26 +976,14 @@ bizMOBWebCore.Localization.setLocale = function(arg) {
 bizMOBWebCore.Http = {};
 
 // bizMOB Server용 fetch option 정보
-bizMOBWebCore.Http.bizmobOption = function() {
+bizMOBWebCore.Http.bizmobOption = function () {
     var arg = arguments[0] || {};
-    var bodyType = arg._sBodyType || 'json'; // body type (form, json)
     var httpHeader = arg._oHttpHeader || null; // http header
-    var headers = null; // header data
-    var body = null; // body data
-
-    // 헤더 셋팅
-    if (bodyType === 'json') {
-        headers = Object.assign({}, {
-            // 컨텐츠 타입
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }, httpHeader);
-    }
-    else {
-        headers = Object.assign({}, {
-            // 컨텐츠 타입
-            // 'Content-Type': 'multipart/form-data;',
-        }, httpHeader);
-    }
+    var headers = Object.assign({}, {
+        // 컨텐츠 타입
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    }, httpHeader);
+    var body = arg._oBody || {}; // body data
 
     // 언어 코드 추가
     if (bizMOBWebCore.Localization.locale && !headers['Accept-Language']) {
@@ -923,28 +1000,13 @@ bizMOBWebCore.Http.bizmobOption = function() {
         headers['Authorization'] = 'Bearer ' + bizMOBWebCore.Network.config._sJwtToken;
     }
 
-    // form data 처리
-    if (bodyType === 'form') {
-        var formData = new FormData();
-        formData.append('message', arg._oBody.message);
-
-        arg._aFileList.forEach(function(file) {
-            formData.append('fileList', file);
-        });
-
-        body = formData;
-    }
-    else {
-        body = new URLSearchParams(arg._oBody || {}).toString();
-    }
-
     // 옵션 반환
     return {
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         method: 'POST',
         headers: headers,
-        body: body,
+        body: new URLSearchParams(body || {}).toString(),
     };
 };
 
@@ -953,7 +1015,6 @@ bizMOBWebCore.Http.bizmobOption = function() {
  * @param {object} arg 요청 객체
  * @param {string} arg._sUrl
  * @param {string} arg._sMethod 요청 방식 (GET, POST, PUT, DELETE, ...)
- * @param {string} arg._sContentType 컨텐츠 타입 (JSON, ...)
  * @param {number} arg._nTimeout 요청 제한시간 (sec 단위)
  * @param {number} arg._nRetries API 요청 회수 (default: 1 -- 한번 요청 실패시 응답)
  * @param {object} arg._oOption fetch options
@@ -962,7 +1023,7 @@ bizMOBWebCore.Http.bizmobOption = function() {
  * @param {function} arg._fCallback (custom) 요청 성공/실패시 응답값 반환 함수
  * @return
  */
-bizMOBWebCore.Http.request = function(arg) {
+bizMOBWebCore.Http.request = function (arg) {
     // 변수 설정
     var url = arg._sUrl;
     var option = Object.assign({}, arg._oOption, {
@@ -986,8 +1047,8 @@ bizMOBWebCore.Http.request = function(arg) {
 
     // Http.fetch 요청
     bizMOBWebCore.Http.fetch(url, option, timeout, retries)
-        .then(function(res) { arg._fCallback && arg._fCallback(res); })
-        .catch(function(res) { arg._fCallback && arg._fCallback(res); });
+        .then(function (res) { arg._fCallback && arg._fCallback(res); })
+        .catch(function (res) { arg._fCallback && arg._fCallback(res); });
 };
 
 /**
@@ -996,7 +1057,7 @@ bizMOBWebCore.Http.request = function(arg) {
  * @param {String} sMethod 함수 명칭
  * @param {Object} oMessage 전달 파라미터
  */
-bizMOBWebCore.Http.requestMock = function(sClassName, sMethod, oMessage) {
+bizMOBWebCore.Http.requestMock = function (sClassName, sMethod, oMessage) {
     var call = oMessage._fCallback || oMessage.callback || null;
     var baseUrl = bizMOBWebCore.Network.config._sBaseUrl;
     var className = sClassName === 'PushManager' ? 'Push' : sClassName; // Push는 bizMOB과 Core의 클래스명이 다름
@@ -1025,7 +1086,7 @@ bizMOBWebCore.Http.requestMock = function(sClassName, sMethod, oMessage) {
     }
 
     bizMOBWebCore.Http.fetch(url, option)
-        .then(function(res) {
+        .then(function (res) {
             bizMOBWebCore.Module.logger(className, sMethod, 'D', className + ' ' + sMethod + ' mock response.');
             if (sMethod === 'requestLogin') {
                 var msg = Object.assign({}, res.data.body.legacy_message, {
@@ -1040,7 +1101,7 @@ bizMOBWebCore.Http.requestMock = function(sClassName, sMethod, oMessage) {
                 call && call(res.data);
             }
         })
-        .catch(function() {
+        .catch(function () {
             bizMOBWebCore.Module.logger(className, sMethod, 'E', className + ' ' + sMethod + ' mock not found.');
             call && call({ result: false, type: 'mock' });
         });
@@ -1059,14 +1120,14 @@ bizMOBWebCore.Http.requestMock = function(sClassName, sMethod, oMessage) {
  * @param {string} statusText 결과 Text
  * @param {object} data 데이터
  */
-bizMOBWebCore.Http.fetch = function(url, opt, limitTime, retries) {
+bizMOBWebCore.Http.fetch = function (url, opt, limitTime, retries) {
     var option = opt; // fetch option 셋팅
     var limit = limitTime || (60 * 1000); // timeout 시간
     var retry = retries || 1; // 재요청 회수
 
     // Fetch 요청 Promise
-    var attemptFetch = function(url, opt) {
-        return new Promise(function(resolve, reject) {
+    var attemptFetch = function (url, opt) {
+        return new Promise(function (resolve, reject) {
             fetch(url, opt).then(function (res) {
                 if (res.ok) {
                     resolve(res.json());
@@ -1079,25 +1140,25 @@ bizMOBWebCore.Http.fetch = function(url, opt, limitTime, retries) {
     };
 
     // Timeout 제한 Promise
-    var timeout = function(timeout) {
-        return new Promise(function(_, reject) {
-            setTimeout(function() { reject(new Error('timeout error')); }, timeout);
+    var timeout = function (timeout) {
+        return new Promise(function (_, reject) {
+            setTimeout(function () { reject(new Error('timeout error')); }, timeout);
         });
     };
 
     // Promise 객체 Return
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         var attempts = 1;
-        var executeFetch = function() {
-            var fetchAttempt = Promise.race([ attemptFetch(url, option), timeout(limit) ]); // 요청 경쟁
+        var executeFetch = function () {
+            var fetchAttempt = Promise.race([attemptFetch(url, option), timeout(limit)]); // 요청 경쟁
             var maxRetry = retry; // 최대 리트라이 회수
 
             // Fetch 요청
             fetchAttempt
-                .then(function(data) {
+                .then(function (data) {
                     resolve({ ok: true, status: 200, statusText: 'OK', data: data });
                 })
-                .catch(function(res) {
+                .catch(function (res) {
                     if (attempts < maxRetry) {
                         attempts++;
                         executeFetch(); // 재발송 회수만큼 재귀 호출

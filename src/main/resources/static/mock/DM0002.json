@@ -6,151 +6,49 @@
         "trcode": "mock-DM0002"
     },
     "body": {
-        "page": 1,
-        "pageSize": 10,
-        "totalPages": 3,
-        "totalItems": 30,
-        "list": [
-            {
-                "noticeId": "1",
-                "userGroupId": "group1",
-                "userGroupName": "전체 사용자",
-                "emergencyNoticeYn": "Y",
-                "title": "긴급 공지사항 1",
-                "attachYn": "Y",
-                "authorId": "author1",
-                "authorName": "홍길동",
-                "updateDate": "20240701",
-                "activeYn": "Y",
-                "startDate": "20240701",
-                "endDate": "20240710"
-            },
-            {
-                "noticeId": "2",
-                "userGroupId": "group2",
-                "userGroupName": "관리자",
-                "emergencyNoticeYn": "N",
-                "title": "일반 공지사항 2",
-                "attachYn": "N",
-                "authorId": "author2",
-                "authorName": "김철수",
-                "updateDate": "20240702",
-                "activeYn": "Y",
-                "startDate": "20240702",
-                "endDate": "20240712"
-            },
-            {
-                "noticeId": "3",
-                "userGroupId": "group3",
-                "userGroupName": "개발팀",
-                "emergencyNoticeYn": "N",
-                "title": "일반 공지사항 3",
-                "attachYn": "Y",
-                "authorId": "author3",
-                "authorName": "이영희",
-                "updateDate": "20240703",
-                "activeYn": "N",
-                "startDate": "20240703",
-                "endDate": "20240713"
-            },
-            {
-                "noticeId": "4",
-                "userGroupId": "group4",
-                "userGroupName": "마케팅팀",
-                "emergencyNoticeYn": "Y",
-                "title": "긴급 공지사항 4",
-                "attachYn": "N",
-                "authorId": "author4",
-                "authorName": "박민수",
-                "updateDate": "20240704",
-                "activeYn": "Y",
-                "startDate": "20240704",
-                "endDate": "20240714"
-            },
-            {
-                "noticeId": "5",
-                "userGroupId": "group5",
-                "userGroupName": "영업팀",
-                "emergencyNoticeYn": "N",
-                "title": "일반 공지사항 5",
-                "attachYn": "Y",
-                "authorId": "author5",
-                "authorName": "최수연",
-                "updateDate": "20240705",
-                "activeYn": "N",
-                "startDate": "20240705",
-                "endDate": "20240715"
-            },
-            {
-                "noticeId": "6",
-                "userGroupId": "group6",
-                "userGroupName": "전체 사용자",
-                "emergencyNoticeYn": "Y",
-                "title": "긴급 공지사항 6",
-                "attachYn": "N",
-                "authorId": "author6",
-                "authorName": "장지훈",
-                "updateDate": "20240706",
-                "activeYn": "Y",
-                "startDate": "20240706",
-                "endDate": "20240716"
-            },
-            {
-                "noticeId": "7",
-                "userGroupId": "group7",
-                "userGroupName": "관리자",
-                "emergencyNoticeYn": "N",
-                "title": "일반 공지사항 7",
-                "attachYn": "Y",
-                "authorId": "author7",
-                "authorName": "윤정희",
-                "updateDate": "20240707",
-                "activeYn": "N",
-                "startDate": "20240707",
-                "endDate": "20240717"
-            },
-            {
-                "noticeId": "8",
-                "userGroupId": "group8",
-                "userGroupName": "개발팀",
-                "emergencyNoticeYn": "Y",
-                "title": "긴급 공지사항 8",
-                "attachYn": "N",
-                "authorId": "author8",
-                "authorName": "오정환",
-                "updateDate": "20240708",
-                "activeYn": "Y",
-                "startDate": "20240708",
-                "endDate": "20240718"
-            },
-            {
-                "noticeId": "9",
-                "userGroupId": "group9",
-                "userGroupName": "마케팅팀",
-                "emergencyNoticeYn": "N",
-                "title": "일반 공지사항 9",
-                "attachYn": "Y",
-                "authorId": "author9",
-                "authorName": "김영수",
-                "updateDate": "20240709",
-                "activeYn": "N",
-                "startDate": "20240709",
-                "endDate": "20240719"
-            },
-            {
-                "noticeId": "10",
-                "userGroupId": "group10",
-                "userGroupName": "영업팀",
-                "emergencyNoticeYn": "Y",
-                "title": "긴급 공지사항 10",
-                "attachYn": "N",
-                "authorId": "author10",
-                "authorName": "김민재",
-                "updateDate": "20240710",
-                "activeYn": "Y",
-                "startDate": "20240710",
-                "endDate": "20240720"
-            }
-        ]
+        "totalCnt": 6,
+        "list": [{
+            "regName": "",
+            "deptName": "",
+            "attachFlag": "Y",
+            "regDate": "202003181710",
+            "title": "게시판제목 (local)",
+            "docId": "DEBD0000000006"
+        }, {
+            "regName": "",
+            "deptName": "",
+            "attachFlag": "Y",
+            "regDate": "202003181709",
+            "title": "게시판제목 (local)",
+            "docId": "DEBD0000000005"
+        }, {
+            "regName": "",
+            "deptName": "",
+            "attachFlag": "Y",
+            "regDate": "202003181450",
+            "title": "게시판제목 (local)",
+            "docId": "DEBD0000000004"
+        }, {
+            "regName": "",
+            "deptName": "",
+            "attachFlag": "Y",
+            "regDate": "202003031807",
+            "title": "게시판12 (local)",
+            "docId": "DEBD0000000003"
+        }, {
+            "regName": "",
+            "deptName": "",
+            "attachFlag": "Y",
+            "regDate": "202003031807",
+            "title": "한글인코딩테스트 (local)",
+            "docId": "DEBD0000000002"
+        }, {
+            "regName": "",
+            "deptName": "",
+            "attachFlag": "Y",
+            "regDate": "202003031806",
+            "title": "게시판제목 (local)",
+            "docId": "DEBD0000000001"
+        }]
     }
 }
