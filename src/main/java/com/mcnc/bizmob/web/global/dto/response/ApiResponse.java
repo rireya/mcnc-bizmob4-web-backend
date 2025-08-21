@@ -13,15 +13,15 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class ApiResponse<T> {
-	private boolean status;
-	private String code;
+	private boolean result ;
+	private String resultCode;
 	private T data;
-	private String message;
+	private String resultMessage;
 	
-	public ApiResponse(boolean status, String message) {
+	public ApiResponse(boolean result, String resultMessage) {
 		super();
-		this.status = status;
-		this.message = message;
+		this.result = result;
+		this.resultMessage = resultMessage;
 	}
 	
     // 데이터가 단일 객체인 경우 설정

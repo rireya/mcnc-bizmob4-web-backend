@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InternalServerException.class)
     public ResponseEntity<ApiResponse<?>> handleInternalServerException(InternalServerException e) {
         ApiResponse<?> response = new ApiResponse<>(false, e.getMessage());	
-        response.setCode(e.getErrorCode().getCode());
+        response.setResultCode(e.getErrorCode().getCode());
         log.error("handleInternalServerException", e);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -59,7 +59,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ApiResponse<?>> handleValidationException(ValidationException e) {
         ApiResponse<?> response = new ApiResponse<>(false, e.getMessage());	
-        response.setCode(e.getErrorCode().getCode());
+        response.setResultCode(e.getErrorCode().getCode());
         log.error("ValidationException", e);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);

@@ -1,0 +1,1 @@
+import{l as r,f as p,w as e,r as o,o as _,b as a,p as l,R as s}from"./index-DxgQ1Yon.js";const d=r({__name:"BlankLayout",setup(c){return(u,f)=>{const t=o("v-app"),n=o("v-locale-provider");return _(),p(n,null,{default:e(()=>[a(t,null,{default:e(()=>[a(l(s))]),_:1})]),_:1})}}});export{d as default};

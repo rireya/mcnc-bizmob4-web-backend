@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RootController {
 
-	 @GetMapping(value = {"/health"}, produces = "text/plain")
+	 @GetMapping(value = {"/health"}, produces = "text/plain") //버전추가필요 /v1
 	 public ResponseEntity<String> healthCheck() {
 		return ResponseEntity.ok("BizMOB Web healthCheck ok");
 	}

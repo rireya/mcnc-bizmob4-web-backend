@@ -21,7 +21,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/user") //버전관리 추가 필요. /api/v2/user
 @Tag(name = "[SMADxxxx] 사용자(User/관리자) 관련 Controller", description = "사용자(관리자)와 관련된 기능을 수행합니다.")
 public class UserController {
 	
