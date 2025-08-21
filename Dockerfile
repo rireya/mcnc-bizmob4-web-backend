@@ -9,10 +9,8 @@ WORKDIR /workspace
 COPY pom.xml .
 RUN mvn -B -q dependency:go-offline
 
-# 이후 소스 추가
+# 소스 복사 & 패키징,  테스트는 CI에서 하고, 컨테이너 빌드는 속도 위해 생략 권장
 COPY src ./src
-
-# 테스트는 CI에서 하고, 컨테이너 빌드는 속도 위해 생략 권장
 RUN mvn -B -q -DskipTests package
 
 # ---------- Runtime stage ----------
@@ -27,7 +25,7 @@ RUN set -eux; \
     mv "$JAR" /app/app.jar; \
     rm -f /app/*.original || true
 
-# Render가 주는 $PORT로 리슨 (기본 8080)
+# Render가 주는 $PORT로 리슨 (기본 8080) 문서화용(필수 아님)
 ENV PORT=8080
 EXPOSE 8080
 
